@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="screen_vertical_margin">24dp</dimen>
+    <dimen name="screen_horizontal_margin">24dp</dimen>
+    <dimen name="avatar_icon_home">50dp</dimen>
+    <dimen name="element_margin">10dp</dimen>
+</resources>
