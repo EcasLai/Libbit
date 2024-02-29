@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.libbit.R
 import com.example.libbit.model.Book
 
-class BookAdapter(private val bookList: ArrayList<Book>) : RecyclerView.Adapter<BookAdapter.BookViewHolder>(){
+class BookAdapter(private val bookList: ArrayList<Book>, private val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<BookAdapter.BookViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item_hotpick, parent, false)
@@ -23,7 +23,7 @@ class BookAdapter(private val bookList: ArrayList<Book>) : RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         val book = bookList[position]
-        holder.bind(book)
+        holder.bind(book, itemClickListener)
     }
 
     fun updateData(newList: ArrayList<Book>) {
@@ -32,18 +32,19 @@ class BookAdapter(private val bookList: ArrayList<Book>) : RecyclerView.Adapter<
         notifyDataSetChanged()
     }
 
-
     inner class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val bookImageView : ImageView = itemView.findViewById(R.id.cv_img_hot)
         val bookNameTv : TextView = itemView.findViewById(R.id.cv_textview1_hot)
         val bookAuthorTv : TextView = itemView.findViewById(R.id.cv_textview2_hot)
 
-        fun bind(book: Book){
+        fun bind(book: Book, clickListener: OnItemClickListener){
             bookNameTv.text = book.title
             bookAuthorTv.text = book.author
             Glide.with(itemView.context)
                 .load(book.bookImage)
                 .into(bookImageView)
+
+            itemView.setOnClickListener { clickListener.onItemClick(book) }
         }
     }
 

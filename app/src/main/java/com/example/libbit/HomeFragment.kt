@@ -47,8 +47,25 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //Define clickListener
+        val itemClickListener = object : BookAdapter.OnItemClickListener {
+            override fun onItemClick(book: Book) {
+                // Handle item click event here, e.g., navigate to BookDetailFragment
+                val bundle = Bundle().apply {
+                    putParcelable("book", book)
+                }
+                val fragment = BookDetailFragment().apply {
+                    arguments = bundle
+                }
+                fragmentManager?.beginTransaction()
+                    ?.replace(R.id.frame_layout_main, fragment)
+                    ?.addToBackStack(null)
+                    ?.commit()
+            }
+        }
+
         binding.progressBarDiscover.visibility = View.VISIBLE
-        bookAdapter = BookAdapter(ArrayList())
+        bookAdapter = BookAdapter(ArrayList(), itemClickListener)
 
         //Retrieve Book to RecyclerView CardView
         FirestoreUtil.getBooks{ bookArrayList ->
@@ -68,8 +85,6 @@ class HomeFragment : Fragment() {
             val book = Book(title = "Sample Book", author = "John Doe", bookImage = "https://example.com/book1.jpg")
             FirestoreUtil.addBook(book)
         }
-
-
 
     }
 }
