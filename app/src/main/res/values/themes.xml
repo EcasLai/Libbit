@@ -3,6 +3,33 @@
     <style name="Base.Theme.Libbit" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/libbit_sub_color</item>
+    </style>
+
+    <style name="Theme.BottomNavigationView.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/black</item>
+    </style>
+
+    <style name="CornerCut" parent="">
+        <item name="cornerFamilyTopLeft">rounded</item>
+        <item name="cornerFamilyTopRight">cut</item>
+        <item name="cornerFamilyBottomLeft">cut</item>
+        <item name="cornerFamilyBottomRight">rounded</item>
+        <item name="cornerSizeTopLeft">50%</item>
+        <item name="cornerSizeTopRight">25%</item>
+        <item name="cornerSizeBottomLeft">25%</item>
+        <item name="cornerSizeBottomRight">50%</item>
+    </style>
+
+    <style name="roundedImageView" parent="">
+        <item name="cornerFamilyTopLeft">rounded</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerFamilyBottomLeft">rounded</item>
+        <item name="cornerFamilyBottomRight">rounded</item>
+        <item name="cornerSizeTopLeft">20dp</item>
+        <item name="cornerSizeTopRight">20dp</item>
+        <item name="cornerSizeBottomLeft">20dp</item>
+        <item name="cornerSizeBottomRight">20dp</item>
     </style>
 
     <style name="Theme.Libbit" parent="Base.Theme.Libbit" />

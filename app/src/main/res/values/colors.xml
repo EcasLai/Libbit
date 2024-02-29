@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="libbit_text_main_color">#2E3E42</color>
+    <color name="libbit_main_color">#F6C12D</color>
+    <color name="libbit_sub_color">#1B2E35</color>
+    <color name="libbit_text_subhide">#878787</color>
 </resources>

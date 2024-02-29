@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item android:title="Book"
-        android:id="bottom_nav_book"
+        android:id="@+id/bottom_nav_book"
         android:icon="@drawable/baseline_menu_book_24"/>
     <item android:title="Saved"
-        android:id="bottom_nav_saved"
+        android:id="@+id/bottom_nav_saved"
         android:icon="@drawable/baseline_settings_24"/>
     <item android:title="Home"
-        android:id="bottom_nav_home"
+        android:id="@+id/bottom_nav_home"
         android:icon="@drawable/baseline_home_24"/>
     <item android:title="Notification"
-        android:id="bottom_nav_notification"
+        android:id="@+id/bottom_nav_notification"
         android:icon="@drawable/baseline_notifications_none_24"/>
     <item android:title="Profile"
-        android:id="bottom_nav_profile"
+        android:id="@+id/bottom_nav_profile"
         android:icon="@drawable/baseline_account_box_24"/>
 </menu>
+
