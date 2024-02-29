@@ -3,4 +3,9 @@
     <string name="home_date_day">10</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="profile_header_text">Profile</string>
+    <string name="saved_header_text">MY BOOKSHELF</string>
+    <string name="saved_recent_text">Recent Book</string>
+    <string name="profile_name_text">Ecas</string>
+    <string name="view_all_text"><![CDATA[View all >]]></string>
 </resources>
