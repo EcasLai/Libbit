@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.libbit.adapter.RecentBookAdapter
 import com.example.libbit.databinding.FragmentSavedBinding
 
 class SavedFragment : Fragment() {
@@ -31,14 +30,14 @@ class SavedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val bookList = Constants.getBookData()
-
-        val itemAdapter = RecentBookAdapter(bookList)
+//        val bookList = Constants.getBookData()
+//
+//        val itemAdapter = RecentBookAdapter(bookList)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerViewBookRecent)
 
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
-        recyclerView.adapter = itemAdapter
+//        recyclerView.adapter = itemAdapter
     }
 }

@@ -26,6 +26,12 @@ class BookAdapter(private val bookList: ArrayList<Book>) : RecyclerView.Adapter<
         holder.bind(book)
     }
 
+    fun updateData(newList: ArrayList<Book>) {
+        bookList.clear()
+        bookList.addAll(newList)
+        notifyDataSetChanged()
+    }
+
 
     inner class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val bookImageView : ImageView = itemView.findViewById(R.id.cv_img_hot)
@@ -39,5 +45,9 @@ class BookAdapter(private val bookList: ArrayList<Book>) : RecyclerView.Adapter<
                 .load(book.bookImage)
                 .into(bookImageView)
         }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(book: Book)
     }
 }
