@@ -1,13 +1,15 @@
 package com.example.libbit
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.libbit.databinding.FragmentBookDetailBinding
 import com.example.libbit.model.Book
+
 
 class BookDetailFragment : Fragment(){
 
@@ -45,6 +47,9 @@ class BookDetailFragment : Fragment(){
                 .load(book.bookImage)
                 .into(binding.ivBookDetailImg)
         }
+
+        //Scrollable textview
+        binding.tvBookDetailDesc.movementMethod = ScrollingMovementMethod.getInstance()
     }
 
 }

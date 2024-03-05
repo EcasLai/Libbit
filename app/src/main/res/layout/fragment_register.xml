@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/screen_horizontal_margin"
         android:layout_marginTop="100dp"
-        android:text="Login"
+        android:text="Register"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -54,38 +55,39 @@
             android:password="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <CheckBox
-        android:id="@+id/chkBoxRemember"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtRegisterInputRePassword"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/screen_horizontal_margin"
-        android:layout_marginTop="@dimen/element_margin"
-        android:text="Remember me"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtRegisterInputPassword" />
-
-    <TextView
-        android:id="@+id/tvLoginForgot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="@dimen/screen_horizontal_margin"
-        android:text="Forgot Password?"
-        app:layout_constraintBottom_toBottomOf="@+id/chkBoxRemember"
+        android:hint="Re-enter Password"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/chkBoxRemember" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtRegisterInputPassword"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtRegisterRePassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:password="true" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="28dp"
-        android:text="Login"
+        android:text="Register"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chkBoxRemember" />
+        app:layout_constraintTop_toBottomOf="@+id/txtRegisterInputRePassword" />
 
     <TextView
         android:id="@+id/tvRegisterHintSignIn"
@@ -94,7 +96,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="48dp"
         android:linksClickable="false"
-        android:text="No account yet? "
+        android:text="Owned account? "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tvRegisterSignIn"
         app:layout_constraintHorizontal_bias="0.5"
@@ -107,7 +109,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="48dp"
         android:linksClickable="false"
-        android:text="Sign Up"
+        android:text="Sign In"
         android:textColor="@color/libbit_main_color"
         android:textSize="16sp"
         android:textStyle="bold"

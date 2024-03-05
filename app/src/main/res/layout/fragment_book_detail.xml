@@ -51,15 +51,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:cropToPadding="false"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/book1" />
     </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/tvBookDetailTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/screen_horizontal_margin"
         android:layout_marginTop="@dimen/element_margin_slightfar"
+        android:layout_marginEnd="@dimen/screen_horizontal_margin"
+        android:gravity="center_horizontal|center_vertical"
+        android:maxLines="2"
         android:text="Book Title"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -85,6 +89,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="@dimen/screen_horizontal_margin"
         android:layout_marginBottom="@dimen/element_margin"
+        android:nestedScrollingEnabled="false"
         android:scrollbarFadeDuration="100"
         android:scrollbars="vertical"
         android:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,"

@@ -26,7 +26,7 @@ class BookAdapter(private val bookList: ArrayList<Book>, private val itemClickLi
         holder.bind(book, itemClickListener)
     }
 
-    fun updateData(newList: ArrayList<Book>) {
+    fun updateData(newList: List<Book>) {
         bookList.clear()
         bookList.addAll(newList)
         notifyDataSetChanged()
