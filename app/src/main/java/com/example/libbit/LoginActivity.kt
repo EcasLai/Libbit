@@ -8,34 +8,38 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
 import com.example.libbit.databinding.ActivityLoginBinding
 import com.example.libbit.AuthenticationManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Set up UI listeners
-        binding.btnRegister.setOnClickListener {
-            val email = binding.txtRegisterEmail.text.toString() // Use text property directly from binding
-            val password = binding.txtRegisterPassword.text.toString() // Use text property directly from binding
+        //Initialize Firebase Auth
+        auth = Firebase.auth
 
-            AuthenticationManager.signIn(email, password) { isSuccess, errorMessage ->
-                if (isSuccess) {
-                    startActivity(Intent(this, MainActivity::class.java))
+        // Initialize NavController
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragmentCont) as NavHostFragment
+        val navController = navHostFragment.navController
 
-                    Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
-                } else {
-                    // Authentication failed, display error message
-                    Toast.makeText(this, errorMessage ?: "Authentication failed", Toast.LENGTH_SHORT).show()
-                }
-            }
+    }
+
+    public override fun onStart() {
+        super.onStart()
+        // Check if user is signed in
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+//            reload()
         }
-
     }
 }

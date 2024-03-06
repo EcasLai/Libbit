@@ -1,7 +1,6 @@
 package com.example.libbit
 
 import android.content.ContentValues
-import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.libbit.model.Book
 import com.google.firebase.firestore.FirebaseFirestore
