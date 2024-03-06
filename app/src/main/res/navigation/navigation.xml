@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.libbit.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/bookDetailFragment"
+        android:name="com.example.libbit.BookDetailFragment"
+        android:label="BookDetailFragment" />
+    <fragment
+        android:id="@+id/bookFragment"
+        android:name="com.example.libbit.BookFragment"
+        android:label="fragment_book"
+        tools:layout="@layout/fragment_book" />
+    <fragment
+        android:id="@+id/savedFragment"
+        android:name="com.example.libbit.SavedFragment"
+        android:label="fragment_saved"
+        tools:layout="@layout/fragment_saved" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.libbit.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/notificationActivities"
+        android:name="com.example.libbit.NotificationActivities"
+        android:label="fragment_notification"
+        tools:layout="@layout/fragment_notification" />
+</navigation>

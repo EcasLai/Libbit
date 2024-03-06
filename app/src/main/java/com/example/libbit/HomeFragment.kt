@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.libbit.adapter.BookAdapter
 import com.example.libbit.databinding.FragmentHomeBinding
 import com.example.libbit.model.Book
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 

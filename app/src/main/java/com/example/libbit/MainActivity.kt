@@ -2,52 +2,38 @@ package com.example.libbit
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.libbit.model.Book
 import com.example.libbit.adapter.BookAdapter
 import com.example.libbit.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityMainBinding
-
+    private lateinit var binding: ActivityMainBinding
+    lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //On start Home fragment
-        binding.bottomNavigationView.selectedItemId = R.id.bottom_nav_home
-
-        //Bottom Navigation
-        binding.bottomNavigationView.setOnItemSelectedListener {
-
-            when(it.itemId){
-                R.id.bottom_nav_book -> replaceFragment(BookFragment())
-                R.id.bottom_nav_saved ->  replaceFragment(SavedFragment())
-                R.id.bottom_nav_home ->  replaceFragment(HomeFragment())
-                R.id.bottom_nav_notification ->  replaceFragment(NotificationActivities())
-                R.id.bottom_nav_profile ->  replaceFragment(ProfileFragment())
-
-                else->{
-
-                }
-
-            }
-            true
-        }
+        // Initialize NavController
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragmentCont) as NavHostFragment
+        val navController = navHostFragment.navController
 
 
 
-        replaceFragment(HomeFragment())
+        binding.bottomNavigationView.setupWithNavController(navController)
 
     }
 
-    private fun replaceFragment(fragment : Fragment){
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frame_layout_main, fragment)
-        fragmentTransaction.commit()
-    }
+
 }
+

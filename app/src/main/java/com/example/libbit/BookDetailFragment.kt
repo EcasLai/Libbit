@@ -36,6 +36,14 @@ class BookDetailFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //Scrollable textview
+        binding.tvBookDetailDesc.movementMethod = ScrollingMovementMethod.getInstance()
+
+
+        binding.btnBookDetailBack.setOnClickListener{
+
+        }
+
         //Retrieve Book object from other fragment
         val book: Book? = arguments?.getParcelable("book")
 
@@ -48,8 +56,6 @@ class BookDetailFragment : Fragment(){
                 .into(binding.ivBookDetailImg)
         }
 
-        //Scrollable textview
-        binding.tvBookDetailDesc.movementMethod = ScrollingMovementMethod.getInstance()
     }
 
 }
