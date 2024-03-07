@@ -17,6 +17,10 @@ object AuthenticationManager {
         auth = FirebaseAuth.getInstance()
     }
 
+    fun getCurrentUser(): FirebaseUser? {
+        return auth.currentUser
+    }
+
     fun register(email: String, password: String, onComplete: (Boolean, String?) -> Unit) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->

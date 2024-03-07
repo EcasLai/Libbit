@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.libbit.adapter.BookAdapter
@@ -45,10 +46,7 @@ class HomeFragment : Fragment() {
                     arguments = bundle
                 }
 
-                requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.frame_layout_main, fragment)
-                    .addToBackStack(null)
-                    .commit()
+                findNavController().navigate(R.id.action_homeFragment_to_bookDetailFragment)
             }
         }
 

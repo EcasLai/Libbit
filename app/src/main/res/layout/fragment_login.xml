@@ -7,18 +7,30 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tvRegisterHeader"
+        android:id="@+id/tvLoginSkip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="Skip"
+        android:textColor="#737373"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvLoginHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/screen_horizontal_margin"
         android:layout_marginTop="100dp"
         android:text="Login"
-        android:textSize="24sp"
+        android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/txtRegisterInputEmail"
+        android:id="@+id/txtLoginInputEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/screen_horizontal_margin"
@@ -27,16 +39,16 @@
         android:hint="Email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRegisterHeader">
+        app:layout_constraintTop_toBottomOf="@+id/tvLoginHeader">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtRegisterEmail"
+            android:id="@+id/txtLoginEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/txtRegisterInputPassword"
+        android:id="@+id/txtLoginInputPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/screen_horizontal_margin"
@@ -45,11 +57,11 @@
         android:hint="Password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtRegisterInputEmail"
+        app:layout_constraintTop_toBottomOf="@+id/txtLoginInputEmail"
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtRegisterPassword"
+            android:id="@+id/txtLoginPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:password="true" />
@@ -63,7 +75,7 @@
         android:layout_marginTop="@dimen/element_margin"
         android:text="Remember me"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtRegisterInputPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/txtLoginInputPassword" />
 
     <TextView
         android:id="@+id/tvLoginForgot"
@@ -76,7 +88,7 @@
         app:layout_constraintTop_toTopOf="@+id/chkBoxRemember" />
 
     <Button
-        android:id="@+id/btnRegister"
+        android:id="@+id/btnLogin"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="28dp"
@@ -89,7 +101,7 @@
         app:layout_constraintTop_toBottomOf="@+id/chkBoxRemember" />
 
     <TextView
-        android:id="@+id/tvRegisterHintSignIn"
+        android:id="@+id/tvLoginHintSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -97,13 +109,13 @@
         android:linksClickable="false"
         android:text="No account yet? "
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tvRegisterSignIn"
+        app:layout_constraintEnd_toStartOf="@+id/tvLoginSignUp"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/tvRegisterSignIn"
+        android:id="@+id/tvLoginSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="48dp"
@@ -115,6 +127,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvRegisterHintSignIn" />
+        app:layout_constraintStart_toEndOf="@+id/tvLoginHintSignUp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

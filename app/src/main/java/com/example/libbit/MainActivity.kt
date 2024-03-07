@@ -35,7 +35,10 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragmentCont) as NavHostFragment
         val navController = navHostFragment.navController
 
-
+        //Update Bottom Nav Visibility
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            updateBottomNavigationVisibility(destination.id)
+        }
 
         binding.bottomNavigationView.setupWithNavController(navController)
 
@@ -47,6 +50,20 @@ class MainActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
 
+        }
+    }
+
+    private fun updateBottomNavigationVisibility(fragmentId: Int) {
+        val bottomNavigationVisibleFragments = setOf(R.id.homeFragment, R.id.bookFragment, R.id.profileFragment, R.id.savedFragment, R.id.notificationActivities)
+        binding.bottomNavigationView.visibility =
+            if (fragmentId in bottomNavigationVisibleFragments) View.VISIBLE else View.GONE
+    }
+
+    private fun verifySignInCondition(){
+        if (AuthenticationManager.getCurrentUser() != null) {
+            // User is signed in, navigate to the main screen or perform any other required actions
+        } else {
+            // User is not signed in, navigate to the sign-in screen or perform any other required actions
         }
     }
 

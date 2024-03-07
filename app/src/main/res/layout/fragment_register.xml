@@ -7,13 +7,25 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/tvRegisterSkip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="Skip"
+        android:textColor="#838383"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/tvRegisterHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/screen_horizontal_margin"
         android:layout_marginTop="100dp"
         android:text="Register"
-        android:textSize="24sp"
+        android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -90,7 +102,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtRegisterInputRePassword" />
 
     <TextView
-        android:id="@+id/tvRegisterHintSignIn"
+        android:id="@+id/tvLoginHintSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -98,13 +110,13 @@
         android:linksClickable="false"
         android:text="Owned account? "
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tvRegisterSignIn"
+        app:layout_constraintEnd_toStartOf="@+id/tvLoginSignUp"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/tvRegisterSignIn"
+        android:id="@+id/tvLoginSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="48dp"
@@ -116,6 +128,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvRegisterHintSignIn" />
+        app:layout_constraintStart_toEndOf="@+id/tvLoginHintSignUp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
