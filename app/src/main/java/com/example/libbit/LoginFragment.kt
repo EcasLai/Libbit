@@ -1,16 +1,15 @@
 package com.example.libbit
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.libbit.databinding.FragmentLoginBinding
+import com.example.libbit.util.AuthenticationManager
+import com.example.libbit.util.UserManager
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -35,13 +34,12 @@ class LoginFragment : Fragment(){
 
         //navigation
         binding.tvLoginSkip.setOnClickListener{
-            findNavController().popBackStack()
+            findNavController().navigateUp()
         }
 
         binding.tvLoginSignUp.setOnClickListener{
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
-
 
         binding.txtLoginEmail.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
@@ -60,23 +58,11 @@ class LoginFragment : Fragment(){
             val email = binding.txtLoginEmail.text.toString() // Use text property directly from binding
             val password = binding.txtLoginPassword.text.toString() // Use text property directly from binding
 
-            if (email.isEmpty() || !isValidEmail(email)) {
-                validateEmail()
-                return@setOnClickListener
-            }
-
-            if (password.isEmpty() || password.length < 6) {
-                validatePassword()
-                return@setOnClickListener
-            }
-
-            AuthenticationManager.signIn(email, password) { success, message ->
-                if (success) {
-                    Toast.makeText(requireContext(), "Sign in successful", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(requireContext(), "Sign in failed: $message", Toast.LENGTH_SHORT).show()
-                }
-            }
+            AuthenticationManager.signIn(email, password, findNavController(), {
+                Toast.makeText(requireContext(), "Sign in successful", Toast.LENGTH_SHORT).show()
+            }, { errorMessage ->
+                Toast.makeText(requireContext(), "Sign in failed: $errorMessage", Toast.LENGTH_SHORT).show()
+            })
         }
 
     }

@@ -1,8 +1,6 @@
 package com.example.libbit
 
-import android.content.ContentValues
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.libbit.adapter.BookAdapter
 import com.example.libbit.databinding.FragmentHomeBinding
 import com.example.libbit.model.Book
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
+import com.example.libbit.util.FirestoreUtil
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -42,11 +38,8 @@ class HomeFragment : Fragment() {
                 val bundle = Bundle().apply {
                     putParcelable("book", book)
                 }
-                val fragment = BookDetailFragment().apply {
-                    arguments = bundle
-                }
-
-                findNavController().navigate(R.id.action_homeFragment_to_bookDetailFragment)
+                val navController = findNavController()
+                navController.navigate(R.id.action_homeFragment_to_bookDetailFragment, bundle)
             }
         }
 

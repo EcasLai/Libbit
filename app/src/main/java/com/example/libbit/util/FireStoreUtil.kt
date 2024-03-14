@@ -1,4 +1,4 @@
-package com.example.libbit
+package com.example.libbit.util
 
 import android.content.ContentValues
 import android.util.Log

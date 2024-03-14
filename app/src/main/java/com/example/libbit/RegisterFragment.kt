@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.libbit.databinding.FragmentRegisterBinding
+import com.example.libbit.util.AuthenticationManager
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import java.util.zip.Inflater
 
 class RegisterFragment: Fragment() {
 
@@ -61,7 +61,7 @@ class RegisterFragment: Fragment() {
                 return@setOnClickListener
             }
 
-            AuthenticationManager.register(email, password) { success, message ->
+            AuthenticationManager.register(email, password, findNavController()) { success, message ->
                 if (success) {
                     Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_SHORT).show()
                 } else {

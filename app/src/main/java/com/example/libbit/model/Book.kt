@@ -9,10 +9,14 @@ data class Book(
     val isbn: String? = null,
     val title:String? = null,
     val bookImage:String? = null,
-    val author:String? = null
+    val description:String? = null,
+    val author:String? = null,
+    val price:String? = null
 
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -25,7 +29,9 @@ data class Book(
         parcel.writeString(isbn)
         parcel.writeString(title)
         parcel.writeString(bookImage)
+        parcel.writeString(description)
         parcel.writeString(author)
+        parcel.writeString(price)
     }
 
     override fun describeContents(): Int {

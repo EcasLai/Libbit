@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_bg"
+    android:textAlignment="viewEnd">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvBsBookInfo"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvBookDetailCont"
+                android:layout_width="80dp"
+                android:layout_height="120dp"
+                android:layout_marginStart="@dimen/screen_horizontal_margin"
+                android:layout_marginTop="@dimen/screen_vertical_margin"
+                app:cardCornerRadius="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/ivBsBook"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:cropToPadding="false"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/book1" />
+            </androidx.cardview.widget.CardView>
+            <!-- Add other views/components as needed -->
+
+            <TextView
+                android:id="@+id/tvBsTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/element_margin_slightfar"
+                android:layout_marginEnd="@dimen/element_margin_slightfar"
+                android:fontFamily="@font/roboto"
+                android:maxLines="2"
+                android:minLines="1"
+                android:text="Title"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/cvBookDetailCont"
+                app:layout_constraintEnd_toStartOf="@+id/tvBsPayAmount"
+                app:layout_constraintStart_toEndOf="@+id/cvBookDetailCont"
+                app:layout_constraintTop_toTopOf="@+id/cvBookDetailCont" />
+
+            <TextView
+                android:id="@+id/tvBsPayAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:gravity="center_vertical"
+                android:text="RM 10.00"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/cvBookDetailCont"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/cvBookDetailCont" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+    <com.stripe.android.view.CardInputWidget
+        android:id="@+id/card_input_widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/screen_horizontal_margin"
+        android:layout_marginEnd="@dimen/screen_horizontal_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cvBsBookInfo" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvBsPaymentInfo"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_input_widget" />
+
+    <Button
+        android:id="@+id/btnBsPayment"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="@dimen/screen_horizontal_margin"
+        android:layout_marginTop="@dimen/element_margin_close"
+        android:layout_marginEnd="@dimen/screen_horizontal_margin"
+        android:text="Make Payment"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cvBsPaymentInfo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
