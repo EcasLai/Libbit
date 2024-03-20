@@ -35,6 +35,7 @@ class ProfileFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         storage = FirebaseStorage.getInstance()
 
+
         return binding.root
     }
 
@@ -42,15 +43,14 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //Set username profileImg for current user
-        if(AuthenticationManager.getCurrentUser() != null){
+        if (AuthenticationManager.getCurrentUser() == null) {
+            findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+        } else {
             binding.profileNameTv.setText(UserManager.getCurrentUser()?.displayName)
             Glide.with(this)
                 .load(UserManager.getCurrentUser()?.photoUrl)
                 .into(binding.profileImg)
-        } else{
-            findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
         }
-
         //Profile Image setting
         binding.profileImg.setOnClickListener{
             // Open gallery to choose photo

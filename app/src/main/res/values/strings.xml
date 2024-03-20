@@ -8,4 +8,6 @@
     <string name="saved_recent_text">Recent Book</string>
     <string name="profile_name_text">Ecas</string>
     <string name="view_all_text"><![CDATA[View all >]]></string>
+    <string name="welcome_slider">Welcome</string>
+    <string name="dummy_text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis</string>
 </resources>

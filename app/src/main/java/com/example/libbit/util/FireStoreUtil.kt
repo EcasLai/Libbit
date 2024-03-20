@@ -33,14 +33,6 @@ object FirestoreUtil {
             .addOnSuccessListener { result: QuerySnapshot ->
                 val bookList = mutableListOf<Book>()
 
-//                for (document in result.documents) {
-//                    // Convert Firestore document into Book object
-//                    val book = document.toObject(Book::class.java)
-//                    book?.let {
-//                        bookList.add(it)
-//                    }
-//                }
-
                 for (document in result.documents) {
                     val isbn = document.getString("isbn") ?: ""
                     val title = document.getString("title") ?: ""
@@ -58,17 +50,5 @@ object FirestoreUtil {
                 onFailure(exception)
                 Log.w(ContentValues.TAG, "Error getting documents.", exception)
             }
-//            .get()
-//            .addOnSuccessListener { result ->
-//                val bookList = ArrayList<Book>()
-//                for (document in result) {
-//                    val book = document.toObject(Book::class.java)
-//                    bookList.add(book)
-//                }
-//                callback(bookList)
-//            }
-//            .addOnFailureListener { exception ->
-//                println("Error getting documents: $exception")
-//            }
     }
 }

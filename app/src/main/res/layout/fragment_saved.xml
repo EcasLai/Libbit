@@ -128,7 +128,7 @@
         app:layout_constraintTop_toBottomOf="@+id/savedBookCV1" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewBookRecent"
+        android:id="@+id/rvBookRecent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/screen_horizontal_margin"
@@ -137,8 +137,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/savedRecentHeader"
-        tools:listitem="@layout/rv_item_recentbook" />/>
+        tools:listitem="@layout/rv_item_recentbook" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

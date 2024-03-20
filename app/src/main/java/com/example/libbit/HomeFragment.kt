@@ -31,6 +31,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val carouselViewPager = binding.carouselViewPager
+
         //Define clickListener
         val itemClickListener = object : BookAdapter.OnItemClickListener {
             override fun onItemClick(book: Book) {
@@ -62,23 +64,14 @@ class HomeFragment : Fragment() {
             }
         )
 
-//        FirestoreUtil.getBooks{ ArrayList ->
-//            activity?.runOnUiThread {
-//                bookAdapter.updateData(ArrayList)
-//                binding.progressBarDiscover.visibility = View.GONE
-//            }
-//        }
-
         binding.rvBookHot.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             adapter = bookAdapter
         }
 
-//        binding.tvDiscoverHeader.setOnClickListener {
-//            // Add a sample book to Firestore
-//            val book = Book(title = "Sample Book", author = "John Doe", bookImage = "https://example.com/book1.jpg")
-//            FirestoreUtil.addBook(book)
-//        }
-
+        binding.searchView.setOnClickListener{
+            val navController = findNavController()
+            navController.navigate(R.id.action_homeFragment_to_searchFragment)
+        }
     }
 }
