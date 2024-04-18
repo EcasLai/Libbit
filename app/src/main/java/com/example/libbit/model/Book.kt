@@ -11,9 +11,11 @@ data class Book(
     val bookImage:String? = null,
     val description:String? = null,
     val author:String? = null,
-    val price:String? = null
+    val price:String? = null,
+    val type: HoldType? = null
 
 ) : Parcelable {
+
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -21,7 +23,8 @@ data class Book(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readString() ?: ""
+        parcel.readString() ?: "",
+        HoldType.valueOf(parcel.readString()?: "")
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -32,6 +35,7 @@ data class Book(
         parcel.writeString(description)
         parcel.writeString(author)
         parcel.writeString(price)
+        parcel.writeString(type?.name)
     }
 
     override fun describeContents(): Int {
@@ -47,4 +51,12 @@ data class Book(
             return arrayOfNulls(size)
         }
     }
+
+}
+
+typealias BookDetailsProvider = (String) -> Book?
+
+enum class HoldType{
+    PHYSICAL_BOOK,
+    EBOOK;
 }

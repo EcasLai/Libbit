@@ -35,7 +35,6 @@ class ProfileFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         storage = FirebaseStorage.getInstance()
 
-
         return binding.root
     }
 
