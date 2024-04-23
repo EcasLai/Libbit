@@ -50,10 +50,10 @@ class BookAdapter(private val bookList: ArrayList<Book>,
             itemView.setOnClickListener { clickListener.onItemClick(book) }
         }
     }
-
     interface OnItemClickListener {
         fun onItemClick(book: Book)
     }
+
 }
 
 class BookSavedAdapter(private val savedBookList: ArrayList<Book>,

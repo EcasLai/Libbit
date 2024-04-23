@@ -25,7 +25,11 @@
         android:id="@+id/bookFragment"
         android:name="com.example.libbit.BookFragment"
         android:label="fragment_book"
-        tools:layout="@layout/fragment_book" />
+        tools:layout="@layout/fragment_book" >
+        <action
+            android:id="@+id/action_bookFragment_to_reservationDetailFragment"
+            app:destination="@id/reservationDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/savedFragment"
         android:name="com.example.libbit.SavedFragment"
@@ -80,4 +84,8 @@
             android:id="@+id/action_onboardingFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/reservationDetailFragment"
+        android:name="com.example.libbit.ReservationDetailFragment"
+        android:label="ReservationDetailFragment" />
 </navigation>

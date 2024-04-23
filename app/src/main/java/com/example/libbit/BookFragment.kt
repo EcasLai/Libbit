@@ -23,9 +23,7 @@ class BookFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentBookBinding.inflate(inflater,
-
-            container, false)
+        binding = FragmentBookBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -40,7 +38,7 @@ class BookFragment : Fragment() {
                     putParcelable("hold", hold)
                 }
                 val navController = findNavController()
-                navController.navigate(R.id.action_homeFragment_to_bookDetailFragment, bundle)
+                navController.navigate(R.id.action_bookFragment_to_reservationDetailFragment, bundle)
             }
         }
 
@@ -54,7 +52,6 @@ class BookFragment : Fragment() {
                         val holds = holdsWithBooks.map { it.first } // Extract holds from pairs
                         val booksMap = holdsWithBooks.map { it.second.id to it.second }.toMap()
                         holdAdapter.updateData(holds, booksMap)
-                        Toast.makeText(context, "Yes, $holdsWithBooks", Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "No reservations found", Toast.LENGTH_SHORT).show()
                     }

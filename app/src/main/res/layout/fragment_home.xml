@@ -136,15 +136,17 @@
         app:layout_constraintTop_toBottomOf="@+id/rvBookHot" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvBookReading"
+        android:id="@+id/rvBookPopular"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/tvPopularHeader"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/screen_horizontal_margin"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="@dimen/screen_horizontal_margin"
+        android:forceHasOverlappingRendering="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvDiscoverHeader"
-        tools:listitem="@layout/rv_item_hotpick" />
+        app:layout_constraintTop_toBottomOf="@id/tvPopularHeader"
+        tools:listitem="@layout/rv_item_recentbook" />
 
     <ProgressBar
         android:id="@+id/progressBarDiscover"

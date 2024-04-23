@@ -85,7 +85,7 @@ class BookDetailFragment : Fragment(){
 
     }
 
-    //Function to add/buy book
+    //Function to reserve book
     private fun placeHold(book: Book?) {
         val currentUser = firebaseAuth.currentUser
 
@@ -99,6 +99,34 @@ class BookDetailFragment : Fragment(){
                 "bookId" to book.id,
                 "type" to book.type,
                 "expirationTimestamp" to expirationTimestamp.toString(),
+                "timestamp" to Calendar.getInstance().timeInMillis.toString()
+            )
+            // Add the hold to Firestore
+            db.collection("holds")
+                .add(holdData)
+                .addOnSuccessListener {
+                    Toast.makeText(context, "Successful Added as Hold ${book.title}", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(context, "Fail Add Book", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(context, "Firebase Authentication Fail, Try Again", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    //Function to  purchase e-book
+    private fun makePurchase(book: Book?){
+        val currentUser = firebaseAuth.currentUser
+
+        if (currentUser != null && book != null) {
+            val userId = currentUser.uid // Get the current user's UID from Firebase Authentication
+            val purchaseTimestamp = Calendar.getInstance().timeInMillis
+            val holdData = hashMapOf(
+                "userId" to userId,
+                "bookId" to book.id,
+                "type" to book.type,
+                "expirationTimestamp" to purchaseTimestamp.toString(),
                 "timestamp" to Calendar.getInstance().timeInMillis.toString()
             )
             // Add the hold to Firestore

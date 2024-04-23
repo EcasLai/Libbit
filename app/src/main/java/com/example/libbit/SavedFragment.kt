@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.libbit.adapter.BookAdapter
 import com.example.libbit.adapter.BookSavedAdapter
 import com.example.libbit.databinding.FragmentHomeBinding
 import com.example.libbit.databinding.FragmentSavedBinding

@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.libbit.adapter.BookAdapter
+import com.example.libbit.adapter.BookSavedAdapter
 import com.example.libbit.databinding.FragmentHomeBinding
 import com.example.libbit.model.Book
 import com.example.libbit.util.FirestoreUtil
@@ -16,6 +17,7 @@ import com.example.libbit.util.FirestoreUtil
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var bookAdapter: BookAdapter
+    private lateinit var bookPopularAdapter: BookSavedAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,10 +47,22 @@ class HomeFragment : Fragment() {
             }
         }
 
+        val itemClickListenerPopular = object : BookSavedAdapter.OnItemClickListener {
+            override fun onItemClick(book: Book) {
+                // Handle item click event here, e.g., navigate to BookDetailFragment
+                val bundle = Bundle().apply {
+                    putParcelable("book", book)
+                }
+                val navController = findNavController()
+                navController.navigate(R.id.action_homeFragment_to_bookDetailFragment, bundle)
+            }
+        }
+
         binding.progressBarDiscover.visibility = View.VISIBLE
 
         bookAdapter = BookAdapter(ArrayList(), itemClickListener)
 
+        bookPopularAdapter = BookSavedAdapter(ArrayList(), itemClickListenerPopular)
 
         FirestoreUtil.getBooks("books",
             onSuccess = { bookList ->
@@ -64,10 +78,31 @@ class HomeFragment : Fragment() {
             }
         )
 
+        FirestoreUtil.getBooks("books",
+            onSuccess = { bookList ->
+                activity?.runOnUiThread {
+                    bookPopularAdapter.updateData(bookList)
+                    binding.progressBarDiscover.visibility = View.GONE
+                }
+            },
+            onFailure = { exception ->
+                // Handle any errors
+                // You may want to display a message to the user
+                binding.progressBarDiscover.visibility = View.GONE
+            }
+        )
+
         binding.rvBookHot.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             adapter = bookAdapter
         }
+
+        binding.rvBookPopular.apply {
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            adapter = bookPopularAdapter
+        }
+
+
 
         binding.searchView.setOnClickListener{
             val navController = findNavController()
