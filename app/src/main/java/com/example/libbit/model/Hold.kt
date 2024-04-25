@@ -8,8 +8,10 @@ data class Hold(
     val userId: String? = null,
     val bookId: String? = null,
     val type: HoldType? = null,
-    val timestamp: String? = null,
-    val expirationTimestamp: String? = null
+    val holdTimestamp: String? = null,
+    val dueTimestamp: String? = null,
+    val licenseKey: String? = null,
+    val status: HoldStatus? = null
 ): Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -19,6 +21,8 @@ data class Hold(
         HoldType.valueOf(parcel.readString()?: ""),
         parcel.readString() ?: "",
         parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        HoldStatus.valueOf(parcel.readString()?: "")
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -26,9 +30,10 @@ data class Hold(
         parcel.writeString(userId)
         parcel.writeString(bookId)
         parcel.writeString(type?.name)
-        parcel.writeString(timestamp)
-        parcel.writeString(expirationTimestamp)
-
+        parcel.writeString(holdTimestamp)
+        parcel.writeString(dueTimestamp)
+        parcel.writeString(licenseKey)
+        parcel.writeString(status?.name)
     }
 
     override fun describeContents(): Int {
@@ -45,4 +50,14 @@ data class Hold(
         }
     }
 
+
 }
+
+enum class HoldStatus{
+    PURCHASED,
+    HOLDING,
+    OVERDUE,
+    COMPLETED,
+    RETURNED;
+}
+

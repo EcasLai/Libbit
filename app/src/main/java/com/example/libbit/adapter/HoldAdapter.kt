@@ -54,7 +54,7 @@ class HoldAdapter(
 
         fun bind(hold: Hold, clickListener: OnItemClickListener) {
 
-            val formattedDate = formatDate(hold.expirationTimestamp)
+            val formattedDate = formatDate(hold.holdTimestamp)
 
             val bookID = hold.bookId
             val book = booksMap[bookID]

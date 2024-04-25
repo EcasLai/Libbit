@@ -3,8 +3,11 @@ package com.example.libbit.util
 import android.content.ContentValues
 import android.util.Log
 import com.example.libbit.model.Book
+import com.example.libbit.model.BookStatus
 import com.example.libbit.model.Hold
 import com.example.libbit.model.HoldType
+import com.example.libbit.model.Reservation
+import com.example.libbit.model.ReservationStatus
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 
@@ -43,6 +46,7 @@ object FirestoreUtil {
                     val author = document.getString("author")?: ""
                     val price = document.getString("price")?: ""
                     val typeString = document.getString("type") ?: ""
+                    val statusString = document.getString("status") ?: ""
 
                     // Convert typeString to HoldType enum
                     val type = when (typeString) {
@@ -51,7 +55,17 @@ object FirestoreUtil {
                         else -> null
                     }
 
-                    val book = Book(id = document.id, isbn, title, bookImage,description, author,price,type)
+                    // Convert statusString to HoldType enum
+                    val status = when (statusString) {
+                        "AVAILABLE" -> BookStatus.AVAILABLE
+                        "ON_HOLD" -> BookStatus.ON_HOLD
+                        "PURCHASED" -> BookStatus.PURCHASED
+                        "DAMAGED" -> BookStatus.DAMAGED
+                        "LOST" -> BookStatus.LOST
+                        else -> null
+                    }
+
+                    val book = Book(id = document.id, isbn, title, bookImage,description, author,price,type,status)
 
 
                     bookList.add(book)
@@ -66,15 +80,15 @@ object FirestoreUtil {
             }
     }
 
-    fun getHolds(
+    fun getReservations(
         collectionName: String,
-        onSuccess: (List<Pair<Hold, Book>>) -> Unit,
+        onSuccess: (List<Pair<Reservation, Book>>) -> Unit,
         onFailure: (Exception) -> Unit
     ) {
         db.collection(collectionName)
             .get()
             .addOnSuccessListener { result ->
-                val holdsWithBooks = mutableListOf<Pair<Hold, Book>>()
+                val reservationsWithBooks = mutableListOf<Pair<Reservation, Book>>()
 
                 for (document in result.documents) {
                     val userId = document.getString("userId") ?: ""
@@ -82,21 +96,33 @@ object FirestoreUtil {
                     val typeString = document.getString("type") ?: ""
                     val timestamp = document.getString("timestamp") ?: ""
                     val expirationTimestamp = document.getString("expirationTimestamp") ?: ""
+                    val location =  document.getString("location") ?: ""
+                    val statusString = document.getString("status") ?: ""
 
-                    // Convert typeString to HoldType enum
+                    // Convert typeString to ReservationType enum
                     val type = when (typeString) {
                         "PHYSICAL_BOOK" -> HoldType.PHYSICAL_BOOK
                         "EBOOK" -> HoldType.EBOOK
                         else -> null
                     }
 
-                    val hold = Hold(
+                    val status = when (statusString) {
+                        "RESERVED" -> ReservationStatus.RESERVED
+                        "FULFILLED" -> ReservationStatus.FULFILLED
+                        "EXPIRED" -> ReservationStatus.EXPIRED
+                        "CANCELED" -> ReservationStatus.CANCELED
+                        else -> null
+                    }
+
+                    val reservation = Reservation(
                         id = document.id,
                         userId,
                         bookId,
                         type,
                         timestamp,
-                        expirationTimestamp
+                        expirationTimestamp,
+                        location,
+                        status
                     )
 
                     val fetchBookPromise = db.collection("books").document(bookId).get()
@@ -123,9 +149,9 @@ object FirestoreUtil {
                                     type = type
                                 )
 
-                                holdsWithBooks.add(Pair(hold, book))
-                                if (holdsWithBooks.size == result.documents.size) {
-                                    onSuccess(holdsWithBooks)
+                                reservationsWithBooks.add(Pair(reservation, book))
+                                if (reservationsWithBooks.size == result.documents.size) {
+                                    onSuccess(reservationsWithBooks)
                                 }
                             } else {
                                 onFailure(Exception("Book document with ID $bookId does not exist"))

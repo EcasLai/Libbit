@@ -1,5 +1,6 @@
 package com.example.libbit
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
@@ -14,7 +15,10 @@ import com.bumptech.glide.Glide
 import com.example.libbit.adapter.BookAdapter
 import com.example.libbit.databinding.FragmentBookDetailBinding
 import com.example.libbit.model.Book
+import com.example.libbit.model.BookStatus
+import com.example.libbit.model.HoldStatus
 import com.example.libbit.model.HoldType
+import com.example.libbit.util.FirestoreUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -52,7 +56,7 @@ class BookDetailFragment : Fragment(){
         val book: Book? = arguments?.getParcelable("book")
         val db = Firebase.firestore
 
-
+        //Dynamic Display book information
         if (book != null) {
             // Set the book details
             binding.tvBookDetailTitle.text = book.title
@@ -61,6 +65,12 @@ class BookDetailFragment : Fragment(){
                 .load(book.bookImage)
                 .into(binding.ivBookDetailImg)
             binding.tvBookDetailDesc.text = book.description
+
+            binding.btnBookDetailSubmit.text = book.status.toString()
+
+            //Update reflect to book status
+            updateButtonStatus(book)
+
         }
 
         //Scrollable textview
@@ -68,10 +78,6 @@ class BookDetailFragment : Fragment(){
 
         binding.btnBookDetailBack.setOnClickListener{
             findNavController().navigateUp()
-        }
-
-        binding.btnBookDetailSubmit.setOnClickListener {
-             placeHold(book)
         }
 
 //        binding.btnBookDetailSubmit.setOnClickListener{
@@ -85,21 +91,21 @@ class BookDetailFragment : Fragment(){
 
     }
 
-    //Function to reserve book
-    private fun placeHold(book: Book?) {
+    //Function to  purchase e-book
+    private fun placeHold(book: Book?){
         val currentUser = firebaseAuth.currentUser
 
         if (currentUser != null && book != null) {
             val userId = currentUser.uid // Get the current user's UID from Firebase Authentication
-            val expirationTimestamp = Calendar.getInstance().apply {
-                add(Calendar.DAY_OF_MONTH, 7)
-            }.timeInMillis
+            val holdTimestamp = Calendar.getInstance().timeInMillis
             val holdData = hashMapOf(
                 "userId" to userId,
                 "bookId" to book.id,
                 "type" to book.type,
-                "expirationTimestamp" to expirationTimestamp.toString(),
-                "timestamp" to Calendar.getInstance().timeInMillis.toString()
+                "holdTimestamp" to holdTimestamp.toString(),
+                "dueTimestamp" to null,
+                "licenseKey" to book.id,
+                "status" to HoldStatus.PURCHASED
             )
             // Add the hold to Firestore
             db.collection("holds")
@@ -108,39 +114,58 @@ class BookDetailFragment : Fragment(){
                     Toast.makeText(context, "Successful Added as Hold ${book.title}", Toast.LENGTH_SHORT).show()
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(context, "Fail Add Book", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Fail to own Book", Toast.LENGTH_SHORT).show()
                 }
         } else {
             Toast.makeText(context, "Firebase Authentication Fail, Try Again", Toast.LENGTH_SHORT).show()
         }
     }
 
-    //Function to  purchase e-book
-    private fun makePurchase(book: Book?){
-        val currentUser = firebaseAuth.currentUser
+    private fun updateButtonStatus(book: Book) {
+        when (book.status) {
+            BookStatus.AVAILABLE -> {
+                binding.btnBookDetailSubmit.text = "Get book"
+                binding.btnBookDetailSubmit.setOnClickListener {
+                    showConfirmationDialog(book) {
+                        placeHold(book)
+                    }
+                }
+            }
+            BookStatus.ON_HOLD -> {
+                binding.btnBookDetailSubmit.text = "Reserve Book"
+                binding.btnBookDetailSubmit.setOnClickListener {
+                    val bundle = Bundle().apply {
+                        putParcelable("book", book)
+                    }
+                    val navController = findNavController()
+                    navController.navigate(R.id.action_bookDetailFragment_to_makeReservationFragment, bundle)
+                    //placeReservation(book)
+                }
+            }
+            BookStatus.PURCHASED -> {
+                binding.btnBookDetailSubmit.text = "Owned"
+            }
 
-        if (currentUser != null && book != null) {
-            val userId = currentUser.uid // Get the current user's UID from Firebase Authentication
-            val purchaseTimestamp = Calendar.getInstance().timeInMillis
-            val holdData = hashMapOf(
-                "userId" to userId,
-                "bookId" to book.id,
-                "type" to book.type,
-                "expirationTimestamp" to purchaseTimestamp.toString(),
-                "timestamp" to Calendar.getInstance().timeInMillis.toString()
-            )
-            // Add the hold to Firestore
-            db.collection("holds")
-                .add(holdData)
-                .addOnSuccessListener {
-                    Toast.makeText(context, "Successful Added as Hold ${book.title}", Toast.LENGTH_SHORT).show()
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(context, "Fail Add Book", Toast.LENGTH_SHORT).show()
-                }
-        } else {
-            Toast.makeText(context, "Firebase Authentication Fail, Try Again", Toast.LENGTH_SHORT).show()
+            else -> {
+                binding.btnBookDetailSubmit.text = "Unavailable"
+            }
         }
+
+    }
+
+    private fun showConfirmationDialog(book: Book, onConfirmed: () -> Unit) {
+        val alertDialogBuilder = AlertDialog.Builder(context)
+        alertDialogBuilder.apply {
+            setTitle("Confirmation")
+            setMessage("Are you sure you want to proceed?")
+            setPositiveButton("Yes") { dialog, which ->
+                placeHold(book)
+                dialog.dismiss()
+            }
+            setNegativeButton("No") { dialog, which ->
+                dialog.dismiss()
+            }
+        }.create().show()
     }
 
 }

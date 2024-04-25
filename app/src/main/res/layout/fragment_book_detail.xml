@@ -30,7 +30,7 @@
         android:id="@+id/tvBookDetailHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="Book Details"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/btnBookDetailBack"
         app:layout_constraintEnd_toStartOf="@+id/ivClickBookDetailMore"

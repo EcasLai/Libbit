@@ -171,4 +171,34 @@
 
     </androidx.cardview.widget.CardView>
 
+    <Button
+        android:id="@+id/btnReservationDetailModify"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="@dimen/screen_horizontal_margin"
+        android:layout_marginEnd="@dimen/screen_horizontal_margin"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Change Date"
+        android:textSize="16sp"
+        app:cornerRadius="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnReservationDetailCancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnReservationDetailCancel"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="@dimen/screen_horizontal_margin"
+        android:layout_marginEnd="@dimen/screen_horizontal_margin"
+        android:layout_marginBottom="@dimen/screen_vertical_margin"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Cancel"
+        android:textSize="16sp"
+        app:cornerRadius="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,7 +20,11 @@
     <fragment
         android:id="@+id/bookDetailFragment"
         android:name="com.example.libbit.BookDetailFragment"
-        android:label="BookDetailFragment" />
+        android:label="BookDetailFragment" >
+        <action
+            android:id="@+id/action_bookDetailFragment_to_makeReservationFragment"
+            app:destination="@id/makeReservationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/bookFragment"
         android:name="com.example.libbit.BookFragment"
@@ -88,4 +92,9 @@
         android:id="@+id/reservationDetailFragment"
         android:name="com.example.libbit.ReservationDetailFragment"
         android:label="ReservationDetailFragment" />
+    <fragment
+        android:id="@+id/makeReservationFragment"
+        android:name="com.example.libbit.MakeReservationFragment"
+        android:label="fragment_make_reservation"
+        tools:layout="@layout/fragment_make_reservation" />
 </navigation>

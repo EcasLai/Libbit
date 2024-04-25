@@ -9,15 +9,15 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.libbit.adapter.HoldAdapter
+import com.example.libbit.adapter.ReservationAdapter
 import com.example.libbit.databinding.FragmentBookBinding
-import com.example.libbit.model.Hold
+import com.example.libbit.model.Reservation
 import com.example.libbit.util.FirestoreUtil
 
 class BookFragment : Fragment() {
 
     private lateinit var binding: FragmentBookBinding
-    private lateinit var holdAdapter: HoldAdapter
+    private lateinit var reservationAdapter: ReservationAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,41 +31,41 @@ class BookFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val itemClickListener = object : HoldAdapter.OnItemClickListener {
-            override fun onItemClick(hold: Hold) {
+        val itemClickListener = object : ReservationAdapter.OnItemClickListener {
+            override fun onItemClick(reservation: Reservation) {
                 // Handle item click event here, e.g., navigate to BookDetailFragment
                 val bundle = Bundle().apply {
-                    putParcelable("hold", hold)
+                    putParcelable("reservation", reservation)
                 }
                 val navController = findNavController()
                 navController.navigate(R.id.action_bookFragment_to_reservationDetailFragment, bundle)
             }
         }
 
-        holdAdapter = HoldAdapter(ArrayList(), HashMap(), itemClickListener)
+        reservationAdapter = ReservationAdapter(ArrayList(), HashMap(), itemClickListener)
 
-        FirestoreUtil.getHolds(
-            "holds",
-            onSuccess = { holdsWithBooks ->
+        FirestoreUtil.getReservations(
+            "reservations",
+            onSuccess = { reservationsWithBooks ->
                 activity?.runOnUiThread {
-                    if (holdsWithBooks.isNotEmpty()) {
-                        val holds = holdsWithBooks.map { it.first } // Extract holds from pairs
-                        val booksMap = holdsWithBooks.map { it.second.id to it.second }.toMap()
-                        holdAdapter.updateData(holds, booksMap)
+                    if (reservationsWithBooks.isNotEmpty()) {
+                        val reservations = reservationsWithBooks.map { it.first } // Extract reservations from pairs
+                        val booksMap = reservationsWithBooks.map { it.second.id to it.second }.toMap()
+                        reservationAdapter.updateData(reservations, booksMap)
                     } else {
                         Toast.makeText(context, "No reservations found", Toast.LENGTH_SHORT).show()
                     }
                 }
             },
             onFailure = { exception ->
-                // Handle failure to retrieve holds
+                // Handle failure to retrieve reservations
                 Toast.makeText(context, "Failed to retrieve reservations: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
         )
 
         binding.rvBookReserve.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            adapter = holdAdapter
+            adapter = reservationAdapter
         }
 
     }

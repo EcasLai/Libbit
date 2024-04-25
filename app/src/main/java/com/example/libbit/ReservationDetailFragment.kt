@@ -15,7 +15,7 @@ import com.example.libbit.adapter.BookAdapter
 import com.example.libbit.databinding.FragmentBookDetailBinding
 import com.example.libbit.databinding.FragmentReservationDetailBinding
 import com.example.libbit.model.Book
-import com.example.libbit.model.Hold
+import com.example.libbit.model.Reservation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -50,19 +50,19 @@ class ReservationDetailFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
         //Retrieve Book object from other fragment
-        val hold: Hold? = arguments?.getParcelable("hold")
+        val reservation: Reservation? = arguments?.getParcelable("reservation")
         val db = Firebase.firestore
 
 
-        if (hold != null) {
+        if (reservation != null) {
             // Set the book details
-            binding.tvReservationDetailDate.text = hold.timestamp
-            binding.tvReservationDetailExpiry.text = hold.expirationTimestamp
+            binding.tvReservationDetailDate.text = reservation.timestamp
+            binding.tvReservationDetailExpiry.text = reservation.expirationTimestamp
 //            Glide.with(requireContext())
-//                .load(hold.bookImage)
+//                .load(reservation.bookImage)
 //                .into(binding.ivBookDetailImg)
-//            binding.tvReservationDetailLocation.text = hold.description
-//            binding.tvReservationDetailStatus.text = hold.description
+            binding.tvReservationDetailLocation.text = reservation.location
+            binding.tvReservationDetailStatus.text = reservation.status.toString()
         }
 
         binding.btnReservationDetailBack.setOnClickListener{
