@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ThirdOnboardingScreen">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvThirdOnboarding"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_marginStart="@dimen/screen_horizontal_margin"
+        android:layout_marginTop="@dimen/screen_vertical_margin"
+        android:layout_marginEnd="@dimen/screen_horizontal_margin"
+        android:elevation="0dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imgThirdOnboarding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/slider_img_third" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tvThirdHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/screen_horizontal_margin"
+        android:layout_marginTop="@dimen/element_margin_far"
+        android:layout_marginEnd="@dimen/screen_horizontal_margin"
+        android:text="@string/welcome_slider"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cvThirdOnboarding" />
+
+    <TextView
+        android:id="@+id/tvThirdDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/screen_horizontal_margin"
+        android:layout_marginTop="@dimen/element_margin"
+        android:layout_marginEnd="@dimen/screen_horizontal_margin"
+        android:text="@string/dummy_text"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvThirdHeader" />
+</androidx.constraintlayout.widget.ConstraintLayout>

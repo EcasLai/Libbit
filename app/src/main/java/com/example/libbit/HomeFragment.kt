@@ -1,82 +1,31 @@
 package com.example.libbit
 
-import android.app.AlertDialog
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.libbit.adapter.BookAdapter
+import com.example.libbit.adapter.BookSavedAdapter
 import com.example.libbit.databinding.FragmentHomeBinding
 import com.example.libbit.model.Book
-import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.DocumentId
-import com.google.firebase.firestore.EventListener
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.auth.User
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import java.time.LocalDate
-
+import com.example.libbit.util.FirestoreUtil
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var bookArrayList : ArrayList<Book>
     private lateinit var bookAdapter: BookAdapter
-    //Firestore Database
-    private lateinit var db: FirebaseFirestore
-
-
+    private lateinit var bookPopularAdapter: BookSavedAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-
-        val builder = AlertDialog.Builder(requireContext())
-
-        val db = Firebase.firestore
-
-        val ref = db.collection("Book Collection").document()
-
-        binding.tvDiscoverHeader.setOnClickListener{
-            //Set document on firestore
-            val book = hashMapOf(
-                "id" to ref.id,
-                "isbn" to "1234",
-                "title" to "Lets try",
-                "bookImage" to "1",
-                "author" to "Ecas"
-//
-//                @DocumentId val id: String ?= "",
-//                val isbn: String ?= "",
-//            val title:String ?= "",
-//            val bookImage:Int,
-//            val Author:String ?= ""
-            )
-
-            //Add book into cloud firestore
-            db.collection("Book Collection").document("EBook")
-                .set(book)
-                .addOnSuccessListener {
-                    Log.d(TAG, "DocumentSnapshot successfully written!")
-                    Toast.makeText(context, "City added", Toast.LENGTH_SHORT).show()
-                }
-                .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
-
-        }
-
-        //
 
         return binding.root
     }
@@ -84,77 +33,80 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val carouselViewPager = binding.carouselViewPager
 
-
-
-        //Get book from Constants.kt
-        val bookList = Constants.getBookData()
-
-        val itemAdapter = BookAdapter(bookList)
-
-        bookArrayList = arrayListOf()
-        val bookAdapter = BookAdapter(bookArrayList)
-
-        binding.tvDiscoverViewAll.setOnClickListener{
-
+        //Define clickListener
+        val itemClickListener = object : BookAdapter.OnItemClickListener {
+            override fun onItemClick(book: Book) {
+                // Handle item click event here, e.g., navigate to BookDetailFragment
+                val bundle = Bundle().apply {
+                    putParcelable("book", book)
+                }
+                val navController = findNavController()
+                navController.navigate(R.id.action_homeFragment_to_bookDetailFragment, bundle)
+            }
         }
+
+        val itemClickListenerPopular = object : BookSavedAdapter.OnItemClickListener {
+            override fun onItemClick(book: Book) {
+                // Handle item click event here, e.g., navigate to BookDetailFragment
+                val bundle = Bundle().apply {
+                    putParcelable("book", book)
+                }
+                val navController = findNavController()
+                navController.navigate(R.id.action_homeFragment_to_bookDetailFragment, bundle)
+            }
+        }
+
+        binding.progressBarDiscover.visibility = View.VISIBLE
+
+        bookAdapter = BookAdapter(ArrayList(), itemClickListener)
+
+        bookPopularAdapter = BookSavedAdapter(ArrayList(), itemClickListenerPopular)
+
+        FirestoreUtil.getBooks("books",
+            onSuccess = { bookList ->
+                activity?.runOnUiThread {
+                    bookAdapter.updateData(bookList)
+                    binding.progressBarDiscover.visibility = View.GONE
+                }
+            },
+            onFailure = { exception ->
+                // Handle any errors
+                // You may want to display a message to the user
+                binding.progressBarDiscover.visibility = View.GONE
+            }
+        )
+
+        FirestoreUtil.getBooks("books",
+            onSuccess = { bookList ->
+                activity?.runOnUiThread {
+                    bookPopularAdapter.updateData(bookList)
+                    binding.progressBarDiscover.visibility = View.GONE
+                }
+            },
+            onFailure = { exception ->
+                // Handle any errors
+                // You may want to display a message to the user
+                binding.progressBarDiscover.visibility = View.GONE
+            }
+        )
 
         binding.rvBookHot.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-            adapter = itemAdapter
-//
-//
-//            binding.rvBookHot.adapter = bookAdapter
+            adapter = bookAdapter
         }
 
-        binding.rvBookReading.apply {
-            layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-            adapter = itemAdapter
+        binding.rvBookPopular.apply {
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            adapter = bookPopularAdapter
         }
 
-        //Time
-        binding.tvDate.setText(LocalDate.now().dayOfMonth.toString())
-        binding.tvDay.setText(LocalDate.now().dayOfWeek.toString())
-        binding.tvMonth.setText(LocalDate.now().month.toString() + " " + LocalDate.now().year.toString())
 
 
-//        eventChangeListener()
-//        binding.tvDiscoverViewAll.setOnClickListener{
-//            Toast.makeText(requireContext(), current.toString(), Toast.LENGTH_SHORT).show()
-//        }
-
-    //binding.tvDate.setText()
-
-    }
-
-    private fun eventChangeListener(){
-
-        db = FirebaseFirestore.getInstance()
-
-        db.collection("Book Collection")
-//            .orderBy("title", Query.Direction.ASCENDING)
-            .addSnapshotListener(object: EventListener<QuerySnapshot>{
-                override fun onEvent(
-                    value: QuerySnapshot?,
-                    error: FirebaseFirestoreException?
-                ) {
-                    if(error != null){
-                        Log.e("FireStore Error", error.message.toString())
-                        return
-                    }
-
-                    for(dc: DocumentChange in value?.documentChanges!!){
-
-                        if(dc.type == DocumentChange.Type.ADDED){
-
-                            bookArrayList.add(dc.document.toObject(Book::class.java))
-                        }
-                    }
-
-                    bookAdapter.notifyDataSetChanged()
-                }
-            })
-
-
+        binding.searchView.setOnClickListener{
+            val navController = findNavController()
+            navController.navigate(R.id.action_homeFragment_to_searchFragment)
+        }
     }
 }

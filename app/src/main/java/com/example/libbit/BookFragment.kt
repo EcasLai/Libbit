@@ -5,55 +5,68 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.libbit.adapter.ReservationAdapter
+import com.example.libbit.databinding.FragmentBookBinding
+import com.example.libbit.model.Reservation
+import com.example.libbit.util.FirestoreUtil
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [BookFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class BookFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var binding: FragmentBookBinding
+    private lateinit var reservationAdapter: ReservationAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_book, container, false)
+        binding = FragmentBookBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Book.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            BookFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val itemClickListener = object : ReservationAdapter.OnItemClickListener {
+            override fun onItemClick(reservation: Reservation) {
+                // Handle item click event here, e.g., navigate to BookDetailFragment
+                val bundle = Bundle().apply {
+                    putParcelable("reservation", reservation)
                 }
+                val navController = findNavController()
+                navController.navigate(R.id.action_bookFragment_to_reservationDetailFragment, bundle)
             }
+        }
+
+        reservationAdapter = ReservationAdapter(ArrayList(), HashMap(), itemClickListener)
+
+        FirestoreUtil.getReservations(
+            "reservations",
+            onSuccess = { reservationsWithBooks ->
+                activity?.runOnUiThread {
+                    if (reservationsWithBooks.isNotEmpty()) {
+                        val reservations = reservationsWithBooks.map { it.first } // Extract reservations from pairs
+                        val booksMap = reservationsWithBooks.map { it.second.id to it.second }.toMap()
+                        reservationAdapter.updateData(reservations, booksMap)
+                    } else {
+                        Toast.makeText(context, "No reservations found", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            },
+            onFailure = { exception ->
+                // Handle failure to retrieve reservations
+                Toast.makeText(context, "Failed to retrieve reservations: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
+        )
+
+        binding.rvBookReserve.apply {
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            adapter = reservationAdapter
+        }
+
     }
 }

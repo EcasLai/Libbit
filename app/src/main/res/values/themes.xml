@@ -2,7 +2,6 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Libbit" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">@color/libbit_sub_color</item>
     </style>
 
@@ -30,6 +29,11 @@
         <item name="cornerSizeTopRight">20dp</item>
         <item name="cornerSizeBottomLeft">20dp</item>
         <item name="cornerSizeBottomRight">20dp</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/anim_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/anim_out_bottom</item>
     </style>
 
     <style name="Theme.Libbit" parent="Base.Theme.Libbit" />

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,9 +14,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="0dp">
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/tvDate"
@@ -57,19 +56,27 @@
         android:layout_marginEnd="@dimen/screen_horizontal_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/alert_dark_frame" />
+        app:srcCompat="@android:drawable/alert_dark_frame"/>
 
-    <SearchView
+    <android.widget.SearchView
         android:id="@+id/searchView"
-        android:layout_width="0dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/screen_horizontal_margin"
-        android:layout_marginTop="@dimen/element_margin"
-        android:layout_marginEnd="@dimen/screen_horizontal_margin"
+        android:layout_marginTop="@dimen/screen_vertical_margin"
+        android:layout_marginEnd="@dimen/element_margin_close"
         android:background="#F2F2F2"
+        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <!-- ViewPager2 for carousel -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/carouselViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/searchView"/>
 
     <TextView
         android:id="@+id/tvDiscoverHeader"
@@ -81,7 +88,7 @@
         android:text="Discover"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+        app:layout_constraintTop_toBottomOf="@+id/carouselViewPager" />
 
     <TextView
         android:id="@+id/tvDiscoverViewAll"
@@ -92,13 +99,15 @@
         android:fontFamily="@font/roboto_bold"
         android:text="@string/view_all_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+        app:layout_constraintTop_toBottomOf="@+id/carouselViewPager" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvBookHot"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/element_margin"
+        android:clipToPadding="false"
+        android:paddingHorizontal="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDiscoverHeader"
@@ -119,7 +128,7 @@
     <TextView
         android:id="@+id/tvPopularViewAll"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="@dimen/element_margin_far"
         android:layout_marginEnd="@dimen/screen_horizontal_margin"
         android:text="@string/view_all_text"
@@ -127,23 +136,28 @@
         app:layout_constraintTop_toBottomOf="@+id/rvBookHot" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvBookReading"
-        android:layout_width="wrap_content"
+        android:id="@+id/rvBookPopular"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/element_margin"
+        android:layout_marginStart="@dimen/screen_horizontal_margin"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="@dimen/screen_horizontal_margin"
+        android:forceHasOverlappingRendering="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPopularHeader"
-        tools:listitem="@layout/rv_item_hotpick"/>
+        app:layout_constraintTop_toBottomOf="@id/tvPopularHeader"
+        tools:listitem="@layout/rv_item_recentbook" />
 
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="@dimen/screen_horizontal_margin"-->
-<!--        android:layout_marginTop="@dimen/element_margin"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/textView6" />-->
+    <ProgressBar
+        android:id="@+id/progressBarDiscover"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/rvBookHot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rvBookHot" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

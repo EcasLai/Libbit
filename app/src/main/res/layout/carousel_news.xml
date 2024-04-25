@@ -1,0 +1,31 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- News image -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp">
+
+        <ImageView
+            android:id="@+id/ivCarousel"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/icon_512" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- News title -->
+    <TextView
+        android:id="@+id/tvCarouselTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Testing"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+</FrameLayout>
