@@ -80,6 +80,55 @@ object FirestoreUtil {
             }
     }
 
+    fun getBooksType(collectionName: String, bookType: String, onSuccess: (List<Book>) -> Unit, onFailure: (Exception) -> Unit) {
+        db.collection(collectionName)
+            .whereEqualTo("type", bookType)
+            .get()
+            .addOnSuccessListener { result: QuerySnapshot ->
+                val bookList = mutableListOf<Book>()
+
+                for (document in result.documents) {
+                    val isbn = document.getString("isbn") ?: ""
+                    val title = document.getString("title") ?: ""
+                    val bookImage = document.getString("bookImage") ?: ""
+                    val description = document.getString("description")?: ""
+                    val author = document.getString("author")?: ""
+                    val price = document.getString("price")?: ""
+                    val typeString = document.getString("type") ?: ""
+                    val statusString = document.getString("status") ?: ""
+
+                    // Convert typeString to HoldType enum
+                    val type = when (typeString) {
+                        "PHYSICAL_BOOK" -> HoldType.PHYSICAL_BOOK
+                        "EBOOK" -> HoldType.EBOOK
+                        else -> null
+                    }
+
+                    // Convert statusString to HoldType enum
+                    val status = when (statusString) {
+                        "AVAILABLE" -> BookStatus.AVAILABLE
+                        "ON_HOLD" -> BookStatus.ON_HOLD
+                        "PURCHASED" -> BookStatus.PURCHASED
+                        "DAMAGED" -> BookStatus.DAMAGED
+                        "LOST" -> BookStatus.LOST
+                        else -> null
+                    }
+
+                    val book = Book(id = document.id, isbn, title, bookImage,description, author,price,type,status)
+
+
+                    bookList.add(book)
+                }
+
+                onSuccess(bookList)
+            }
+            .addOnFailureListener { exception ->
+                // Handle any errors
+                onFailure(exception)
+                Log.w(ContentValues.TAG, "Error getting documents.", exception)
+            }
+    }
+
     fun getReservations(
         collectionName: String,
         onSuccess: (List<Pair<Reservation, Book>>) -> Unit,
@@ -167,4 +216,6 @@ object FirestoreUtil {
                 Log.w(ContentValues.TAG, "Error getting hold documents.", exception)
             }
     }
+
+
 }

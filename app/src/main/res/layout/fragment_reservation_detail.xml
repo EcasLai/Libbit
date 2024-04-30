@@ -65,7 +65,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/ivReservationDetailQR"
+                    android:id="@+id/imgReservationDetailQR"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:cropToPadding="false"

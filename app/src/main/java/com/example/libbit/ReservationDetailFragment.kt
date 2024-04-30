@@ -1,7 +1,11 @@
 package com.example.libbit
 
+import android.app.AlertDialog
+import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +24,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.WriterException
+import com.google.zxing.common.BitMatrix
+import com.google.zxing.qrcode.QRCodeWriter
 import java.util.Calendar
 
 class ReservationDetailFragment : Fragment(){
@@ -58,17 +66,70 @@ class ReservationDetailFragment : Fragment(){
             // Set the book details
             binding.tvReservationDetailDate.text = reservation.timestamp
             binding.tvReservationDetailExpiry.text = reservation.expirationTimestamp
-//            Glide.with(requireContext())
-//                .load(reservation.bookImage)
-//                .into(binding.ivBookDetailImg)
             binding.tvReservationDetailLocation.text = reservation.location
             binding.tvReservationDetailStatus.text = reservation.status.toString()
+
+            //Cancel Booking
+            binding.btnReservationDetailCancel.setOnClickListener {
+                showConfirmationDialog(){
+                    cancelReservation(reservation)
+                }
+            }
         }
 
         binding.btnReservationDetailBack.setOnClickListener{
             findNavController().navigateUp()
         }
 
+        val qrCodeImage = generateQRCode("RES-${reservation?.id}-${reservation?.userId}", 200, 200)
+
+        binding.imgReservationDetailQR.setImageBitmap(qrCodeImage)
     }
+
+    private fun cancelReservation(reservation: Reservation){
+        db.collection("reservations").document(reservation.id.toString())
+            .delete()
+            .addOnSuccessListener {
+
+            }
+            .addOnFailureListener {
+
+            }
+        findNavController().navigate(R.id.action_reservationDetailFragment_to_bookFragment)
+    }
+
+    private fun showConfirmationDialog(onConfirmed: () -> Unit) {
+        val alertDialogBuilder = AlertDialog.Builder(context)
+        alertDialogBuilder.apply {
+            setTitle("Confirmation")
+            setMessage("Are you sure you want to proceed?")
+            setPositiveButton("Yes") { dialog, which ->
+                onConfirmed() // Call the provided function to proceed with the action
+                dialog.dismiss()
+            }
+            setNegativeButton("No") { dialog, which ->
+                dialog.dismiss()
+            }
+        }.create().show()
+    }
+
+    // Function to generate QR code
+    private fun generateQRCode(text: String, width: Int, height: Int): Bitmap? {
+        val writer = QRCodeWriter()
+        try {
+            val bitMatrix: BitMatrix = writer.encode(text, BarcodeFormat.QR_CODE, width, height)
+            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+            for (x in 0 until width) {
+                for (y in 0 until height) {
+                    bitmap.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
+                }
+            }
+            return bitmap
+        } catch (e: WriterException) {
+            e.printStackTrace()
+        }
+        return null
+    }
+
 
 }

@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="0dp"
     tools:context=".HomeFragment">
@@ -13,8 +14,10 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="0dp">
 
     <TextView
         android:id="@+id/tvDate"
@@ -24,7 +27,7 @@
         android:layout_marginTop="@dimen/screen_vertical_margin"
         android:fontFamily="@font/roboto_bold"
         android:text="@string/home_date_day"
-        android:textSize="28sp"
+        android:textSize="32sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,38 +39,42 @@
         android:layout_marginTop="@dimen/screen_vertical_margin"
         android:fontFamily="@font/roboto_bold"
         android:text="TextView"
+        android:textColor="@color/grey"
         app:layout_constraintStart_toEndOf="@+id/tvDate"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvMonth"
+        android:id="@+id/tvMonthYear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_bold"
         android:text="TextView"
+        android:textColor="@color/grey"
         app:layout_constraintStart_toStartOf="@+id/tvDay"
         app:layout_constraintTop_toBottomOf="@+id/tvDay" />
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/imgQrScanner"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginTop="@dimen/screen_vertical_margin"
         android:layout_marginEnd="@dimen/screen_horizontal_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/alert_dark_frame"/>
+        app:srcCompat="@drawable/qr_scanner_icon"/>
 
-    <android.widget.SearchView
-        android:id="@+id/searchView"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/imgSearch"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginTop="@dimen/screen_vertical_margin"
         android:layout_marginEnd="@dimen/element_margin_close"
         android:background="#F2F2F2"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="parent"/>
-
+        android:clickable="false"
+        android:focusable="false"
+        app:layout_constraintEnd_toStartOf="@+id/imgQrScanner"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_search" />
 
     <!-- ViewPager2 for carousel -->
     <androidx.viewpager2.widget.ViewPager2
@@ -76,7 +83,7 @@
         android:layout_height="200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"/>
+        app:layout_constraintTop_toBottomOf="@+id/imgSearch"/>
 
     <TextView
         android:id="@+id/tvDiscoverHeader"

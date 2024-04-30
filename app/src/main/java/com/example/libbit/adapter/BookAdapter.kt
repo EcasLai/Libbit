@@ -80,6 +80,11 @@ class BookSavedAdapter(private val savedBookList: ArrayList<Book>,
         notifyDataSetChanged()
     }
 
+    fun clearData() {
+        savedBookList.clear()
+        notifyDataSetChanged()
+    }
+
     inner class BookSavedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val savedBookImageView: ImageView = itemView.findViewById(R.id.imgRecentBookCover)
         val savedBookNameTv: TextView = itemView.findViewById(R.id.tvRecentTitle)

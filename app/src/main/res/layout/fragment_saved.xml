@@ -16,51 +16,58 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/savedHeader"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/screen_horizontal_margin"
-        android:layout_marginTop="@dimen/screen_vertical_margin"
-        android:text="@string/saved_header_text"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <!-- TODO: Update blank fragment layout -->
+        <TextView
+            android:id="@+id/savedHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/screen_horizontal_margin"
+            android:layout_marginTop="@dimen/screen_vertical_margin"
+            android:text="@string/saved_header_text"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/savedBtnBook"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/screen_horizontal_margin"
-        android:layout_marginTop="@dimen/element_margin"
-        android:layout_marginRight="@dimen/screen_horizontal_margin"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/savedBtnEBook"
-        app:layout_constraintTop_toBottomOf="@+id/savedHeader">
-    </Button>
+        <android.widget.Button
+            android:id="@+id/savedBtnBook"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/screen_horizontal_margin"
+            android:layout_marginTop="@dimen/element_margin"
+            android:background="@drawable/book_button_highlighted"
+            android:text="Book"
+            app:cornerRadius="0dp"
+            app:layout_constraintEnd_toStartOf="@+id/savedBtnEBook"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/savedHeader"
+            app:strokeColor="#E3E3E3"
+            android:enabled="true"/>
 
-    <Button
-        android:id="@+id/savedBtnEBook"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/screen_horizontal_margin"
-        app:layout_constraintLeft_toRightOf="@id/savedBtnBook"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/savedBtnBook">
-    </Button>
+        <android.widget.Button
+            android:id="@+id/savedBtnEBook"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/screen_horizontal_margin"
+            android:background="@drawable/book_button_normal"
+            android:text="E-Book"
+            app:cornerRadius="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/savedBtnBook"
+            app:layout_constraintTop_toTopOf="@+id/savedBtnBook"/>
 
-    <TextView
-        android:id="@+id/savedRecentHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/screen_horizontal_margin"
-        android:layout_marginTop="@dimen/screen_vertical_margin"
-        android:text="@string/saved_recent_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/savedBtnBook" />
+        <TextView
+            android:id="@+id/savedRecentHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/screen_horizontal_margin"
+            android:layout_marginTop="@dimen/screen_vertical_margin"
+            android:text="@string/saved_recent_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/savedBtnBook" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvBookRecent"
@@ -74,6 +81,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/savedRecentHeader"
             tools:listitem="@layout/rv_item_recentbook" />
+
+        <ProgressBar
+            android:id="@+id/progressBarSaved"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/savedBtnBook" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

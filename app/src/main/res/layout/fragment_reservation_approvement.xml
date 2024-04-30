@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="0dp"
+    android:outlineSpotShadowColor="#736D6D">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvApprovalIcon"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="@dimen/screen_horizontal_margin"
+        android:layout_marginTop="@dimen/element_margin_far"
+        android:layout_marginEnd="@dimen/screen_horizontal_margin"
+        android:elevation="0dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvThirdHeader">
+
+        <ImageView
+            android:id="@+id/imgApprovalIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/approve_stamp_icon" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tvThirdHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/screen_horizontal_margin"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="@dimen/screen_horizontal_margin"
+        android:text="Reservation Approval"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvThirdDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/screen_horizontal_margin"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="@dimen/screen_horizontal_margin"
+        android:text="Approve Reservation"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cvApprovalIcon" />
+
+    <TextView
+        android:id="@+id/tvThirdDesc2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/screen_horizontal_margin"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="@dimen/screen_horizontal_margin"
+        android:text="The reservation id"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvThirdDesc" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnReject"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@android:color/transparent"
+        android:outlineSpotShadowColor="@color/grey"
+        android:text="✘ Reject"
+        android:textAllCaps="false"
+        android:textColor="@color/color_reject"
+        android:textSize="16sp"
+        app:cornerRadius="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnApprove"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnApprove"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@android:color/transparent"
+        android:outlineSpotShadowColor="@color/grey"
+        android:text="✔ Approve"
+        android:textAllCaps="false"
+        android:textColor="@color/color_confirm"
+        android:textSize="16sp"
+        app:cornerRadius="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnReject" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="@dimen/screen_vertical_margin"
+        android:layout_marginEnd="@dimen/screen_horizontal_margin"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
