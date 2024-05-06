@@ -20,6 +20,7 @@ import com.example.libbit.databinding.FragmentBookDetailBinding
 import com.example.libbit.databinding.FragmentReservationDetailBinding
 import com.example.libbit.model.Book
 import com.example.libbit.model.Reservation
+import com.example.libbit.model.ReservationStatus
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -74,6 +75,11 @@ class ReservationDetailFragment : Fragment(){
                 showConfirmationDialog(){
                     cancelReservation(reservation)
                 }
+            }
+
+            binding.btnReservationDetailModify.setOnClickListener {
+                val bottomSheetFragment = ModifyReservationBottomSheetFragment.newInstance(reservation)
+                bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
             }
         }
 
@@ -130,6 +136,5 @@ class ReservationDetailFragment : Fragment(){
         }
         return null
     }
-
 
 }

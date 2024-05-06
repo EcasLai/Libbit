@@ -5,6 +5,7 @@ import android.util.Log
 import com.example.libbit.model.Book
 import com.example.libbit.model.BookStatus
 import com.example.libbit.model.Hold
+import com.example.libbit.model.HoldStatus
 import com.example.libbit.model.HoldType
 import com.example.libbit.model.Reservation
 import com.example.libbit.model.ReservationStatus
@@ -80,7 +81,11 @@ object FirestoreUtil {
             }
     }
 
-    fun getBooksType(collectionName: String, bookType: String, onSuccess: (List<Book>) -> Unit, onFailure: (Exception) -> Unit) {
+    fun getBooksType(
+        collectionName: String,
+        bookType: String,
+        onSuccess: (List<Book>) -> Unit,
+        onFailure: (Exception) -> Unit) {
         db.collection(collectionName)
             .whereEqualTo("type", bookType)
             .get()
@@ -115,7 +120,6 @@ object FirestoreUtil {
                     }
 
                     val book = Book(id = document.id, isbn, title, bookImage,description, author,price,type,status)
-
 
                     bookList.add(book)
                 }
@@ -217,5 +221,94 @@ object FirestoreUtil {
             }
     }
 
+    fun getSaved(
+        bookType: String,
+        collectionName: String,
+        onSuccess: (List<Pair<Hold, Book>>) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        db.collection(collectionName)
+            .whereEqualTo("type", bookType)
+            .get()
+            .addOnSuccessListener { result ->
+                val savedWithBooks = mutableListOf<Pair<Hold, Book>>()
 
+                for (document in result.documents) {
+                    val userId = document.getString("userId") ?: ""
+                    val bookId = document.getString("bookId") ?: ""
+                    val typeString = document.getString("type") ?: ""
+                    val timestamp = document.getString("holdTimestamp") ?: ""
+                    val expirationTimestamp = document.getString("dueTimestamp") ?: ""
+                    val licenseKey =  document.getString("licenseKey") ?: ""
+                    val statusString = document.getString("status") ?: ""
+
+                    // Convert typeString to SavedType enum
+                    val type = when (typeString) {
+                        "PHYSICAL_BOOK" -> HoldType.PHYSICAL_BOOK
+                        "EBOOK" -> HoldType.EBOOK
+                        else -> null
+                    }
+
+                    val status = when (statusString) {
+                        "PURCHASED" -> HoldStatus.PURCHASED
+                        "HOLDING" -> HoldStatus.HOLDING
+                        "OVERDUE" -> HoldStatus.OVERDUE
+                        "COMPLETED" -> HoldStatus.COMPLETED
+                        "RETURNED" -> HoldStatus.RETURNED
+                        else -> null
+                    }
+
+                    val hold = Hold(
+                        id = document.id,
+                        userId,
+                        bookId,
+                        type,
+                        timestamp,
+                        expirationTimestamp,
+                        licenseKey,
+                        status
+                    )
+
+                    val fetchBookPromise = db.collection("books").document(bookId).get()
+
+                    fetchBookPromise.addOnCompleteListener { bookTask ->
+                        if (bookTask.isSuccessful) {
+                            val bookDocument = bookTask.result
+                            if (bookDocument != null && bookDocument.exists()) {
+                                val isbn = bookDocument.getString("isbn") ?: ""
+                                val title = bookDocument.getString("title") ?: ""
+                                val bookImage = bookDocument.getString("bookImage") ?: ""
+                                val description = bookDocument.getString("description") ?: ""
+                                val author = bookDocument.getString("author") ?: ""
+                                val price = bookDocument.getString("price") ?: ""
+
+                                val book = Book(
+                                    id = bookDocument.id,
+                                    isbn = isbn,
+                                    title = title,
+                                    bookImage = bookImage,
+                                    description = description,
+                                    author = author,
+                                    price = price,
+                                    type = type
+                                )
+
+                                savedWithBooks.add(Pair(hold, book))
+                                if (savedWithBooks.size == result.documents.size) {
+                                    onSuccess(savedWithBooks)
+                                }
+                            } else {
+                                onFailure(Exception("Book document with ID $bookId does not exist"))
+                            }
+                        } else {
+                            onFailure(bookTask.exception ?: Exception("Unknown error"))
+                        }
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                onFailure(exception)
+                Log.w(ContentValues.TAG, "Error getting hold documents.", exception)
+            }
+    }
 }

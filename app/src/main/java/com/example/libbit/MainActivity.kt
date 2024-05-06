@@ -6,22 +6,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.libbit.databinding.ActivityMainBinding
 import com.example.libbit.util.AuthenticationManager
 import com.example.libbit.util.UserManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.journeyapps.barcodescanner.ScanContract
-import com.journeyapps.barcodescanner.ScanIntentResult
-import com.journeyapps.barcodescanner.ScanOptions
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,8 +42,6 @@ class MainActivity : AppCompatActivity() {
         }
         binding.bottomNavigationView.setupWithNavController(navController)
 
-
-
     }
     public override fun onStart() {
         super.onStart()
@@ -64,6 +56,14 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationVisibleFragments = setOf(R.id.homeFragment, R.id.bookFragment, R.id.profileFragment, R.id.savedFragment, R.id.notificationActivities)
         binding.bottomNavigationView.visibility =
             if (fragmentId in bottomNavigationVisibleFragments) View.VISIBLE else View.GONE
+    }
+
+    fun updateSelectedItem(itemId: Int) {
+        // Find the BottomNavigationView by its ID
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+
+        // Set the selected item
+        bottomNavigationView.selectedItemId = itemId
     }
 
     private fun verifySignInCondition(){

@@ -8,7 +8,6 @@ import com.google.firebase.auth.FirebaseUser
 
 object AuthenticationManager {
     private lateinit var auth: FirebaseAuth
-
     init {
         auth = FirebaseAuth.getInstance()
     }
@@ -83,9 +82,8 @@ object AuthenticationManager {
             }
     }
 
-    fun signOut(navController: NavController) {
+    fun signOutFireAuth(navController: NavController) {
         auth.signOut()
-        navController.navigate(R.id.homeFragment) // Navigate to the home fragment
     }
 
 }

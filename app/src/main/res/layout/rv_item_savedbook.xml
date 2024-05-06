@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginVertical="8dp"
+    android:elevation="0dp"
+    android:orientation="vertical"
+    android:outlineAmbientShadowColor="@color/ic_launcher_background"
+    android:outlineProvider="background"
+    android:outlineSpotShadowColor="@color/grey"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvSavedBookDetailCont"
+            android:layout_width="80dp"
+            android:layout_height="110dp"
+            android:layout_alignParentTop="false"
+            android:layout_centerHorizontal="true"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imgSavedBookCover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/book1" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvSavedTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/element_margin_slightfar"
+            android:layout_marginEnd="@dimen/element_margin_slightfar"
+            android:layout_marginBottom="8dp"
+            android:maxLines="1"
+            android:text="Book Title"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tvSavedAuthor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cvSavedBookDetailCont"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/tvSavedAuthor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/element_margin_slightfar"
+            android:layout_marginEnd="@dimen/element_margin_slightfar"
+            android:maxLines="1"
+            android:text="Author"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/tvSavedStatus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cvSavedBookDetailCont"
+            app:layout_constraintTop_toBottomOf="@+id/tvSavedTitle" />
+
+        <TextView
+            android:id="@+id/tvSavedStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/element_margin_slightfar"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="@dimen/element_margin_slightfar"
+            android:layout_marginBottom="8dp"
+            android:text="Status"
+            android:textAlignment="viewEnd"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cvSavedBookDetailCont"
+            app:layout_constraintTop_toBottomOf="@+id/tvSavedAuthor" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

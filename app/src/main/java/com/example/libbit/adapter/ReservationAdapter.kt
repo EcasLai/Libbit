@@ -54,8 +54,6 @@ class ReservationAdapter(
 
         fun bind(reservation: Reservation, clickListener: OnItemClickListener) {
 
-            val formattedDate = formatDate(reservation.expirationTimestamp)
-
             val bookID = reservation.bookId
             val book = booksMap[bookID]
             reservationNameTv.text = book?.title ?: "Unknown Book Title"

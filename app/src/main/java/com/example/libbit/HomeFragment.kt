@@ -238,6 +238,7 @@ class HomeFragment : Fragment() {
         return Pair(null, null)
     }
 
+
     companion object {
         private const val CAMERA_PERMISSION_REQUEST_CODE = 100
     }

@@ -16,6 +16,7 @@ import com.example.libbit.adapter.BookAdapter
 import com.example.libbit.databinding.FragmentBookDetailBinding
 import com.example.libbit.model.Book
 import com.example.libbit.model.BookStatus
+import com.example.libbit.model.Hold
 import com.example.libbit.model.HoldStatus
 import com.example.libbit.model.HoldType
 import com.example.libbit.util.FirestoreUtil
@@ -54,6 +55,8 @@ class BookDetailFragment : Fragment(){
 
         //Retrieve Book object from other fragment
         val book: Book? = arguments?.getParcelable("book")
+        val hold: Hold? = arguments?.getParcelable("hold")
+
         val db = Firebase.firestore
 
         //Dynamic Display book information

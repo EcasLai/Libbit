@@ -115,6 +115,7 @@ class MakeReservationFragment : Fragment(){
                 .addOnFailureListener { e ->
                     Toast.makeText(context, "Fail Add Book", Toast.LENGTH_SHORT).show()
                 }
+
         } else {
             Toast.makeText(context, "Firebase Authentication Fail, Try Again", Toast.LENGTH_SHORT).show()
         }

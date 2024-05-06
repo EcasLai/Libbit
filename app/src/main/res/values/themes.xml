@@ -3,6 +3,7 @@
     <style name="Base.Theme.Libbit" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/libbit_sub_color</item>
+        <item name="android:backgroundDimEnabled">true</item>
     </style>
 
     <style name="Theme.BottomNavigationView.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">

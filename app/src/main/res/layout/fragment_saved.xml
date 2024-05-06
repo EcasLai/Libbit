@@ -60,7 +60,7 @@
             app:layout_constraintTop_toTopOf="@+id/savedBtnBook"/>
 
         <TextView
-            android:id="@+id/savedRecentHeader"
+            android:id="@+id/savedSavedHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/screen_horizontal_margin"
@@ -70,7 +70,7 @@
             app:layout_constraintTop_toBottomOf="@+id/savedBtnBook" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvBookRecent"
+            android:id="@+id/rvBookSaved"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/screen_horizontal_margin"
@@ -79,8 +79,8 @@
             android:forceHasOverlappingRendering="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/savedRecentHeader"
-            tools:listitem="@layout/rv_item_recentbook" />
+            app:layout_constraintTop_toBottomOf="@id/savedSavedHeader"
+            tools:listitem="@layout/rv_item_savedbook" />
 
         <ProgressBar
             android:id="@+id/progressBarSaved"

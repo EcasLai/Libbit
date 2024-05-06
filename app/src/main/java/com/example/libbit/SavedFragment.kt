@@ -10,16 +10,18 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.libbit.adapter.BookSavedAdapter
+import com.example.libbit.adapter.HoldAdapter
 import com.example.libbit.databinding.FragmentHomeBinding
 import com.example.libbit.databinding.FragmentSavedBinding
 import com.example.libbit.model.Book
+import com.example.libbit.model.Hold
 import com.example.libbit.model.HoldType
 import com.example.libbit.util.FirestoreUtil
 
 class SavedFragment : Fragment() {
     private lateinit var binding: FragmentSavedBinding
-    private lateinit var bookAdapter: BookSavedAdapter
+//    private lateinit var bookAdapter: BookSavedAdapter
+    private lateinit var holdAdapter: HoldAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,23 +55,28 @@ class SavedFragment : Fragment() {
             retrieveSavedBook(HoldType.EBOOK.toString())
         }
 
-        val itemClickListener = object : BookSavedAdapter.OnItemClickListener {
-            override fun onItemClick(book: Book) {
+        val itemClickListener = object : HoldAdapter.OnItemClickListener {
+            override fun onItemClick(hold: Hold, book: Book?) {
                 // Handle item click event here, e.g., navigate to BookDetailFragment
-                val bundle = Bundle().apply {
-                    putParcelable("book", book)
+                book?.let {
+                    val bundle = Bundle().apply {
+                        putParcelable("hold", hold)
+                        putParcelable("book", it)
+                    }
+                    val navController = findNavController()
+                    navController.navigate(R.id.action_savedFragment_to_bookDetailFragment, bundle)
+                } ?: run {
+                    Toast.makeText(context, "Book information not available", Toast.LENGTH_SHORT).show()
                 }
-                val navController = findNavController()
-                navController.navigate(R.id.action_savedFragment_to_bookDetailFragment, bundle)
             }
         }
 
-        bookAdapter = BookSavedAdapter(ArrayList(), itemClickListener)
+        holdAdapter = HoldAdapter(ArrayList(), HashMap(), itemClickListener)
 
 
-        binding.rvBookRecent.apply {
+        binding.rvBookSaved.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            adapter = bookAdapter
+            adapter = holdAdapter
         }
 
         //Initial
@@ -78,21 +85,31 @@ class SavedFragment : Fragment() {
 
     private fun retrieveSavedBook(bookType: String){
 
+        Toast.makeText(context, "Testing is $bookType", Toast.LENGTH_SHORT).show()
         binding.progressBarSaved.visibility = View.VISIBLE
 
-        bookAdapter.clearData()
+        holdAdapter.clearData()
 
-        FirestoreUtil.getBooksType("books", bookType,
-            onSuccess = { bookList ->
+        FirestoreUtil.getSaved(
+            bookType,
+            "holds",
+            onSuccess = { savedWithBooks ->
                 activity?.runOnUiThread {
-                    bookAdapter.updateData(bookList)
+                    if (savedWithBooks.isNotEmpty()) {
+                        val holds = savedWithBooks.map { it.first } // Extract reservations from pairs
+                        val booksMap = savedWithBooks.map { it.second.id to it.second }.toMap()
+                        holdAdapter.updateData(holds, booksMap)
+                    } else {
+                        Toast.makeText(context, "No hold found", Toast.LENGTH_SHORT).show()
+                    }
                     binding.progressBarSaved.visibility = View.GONE
                 }
             },
             onFailure = { exception ->
-
-                binding.progressBarSaved.visibility = View.GONE
-            })
+                // Handle failure to retrieve reservations
+                Toast.makeText(context, "Failed to retrieve reservations: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
+        )
     }
 
     private fun highlightButton(button: Button) {

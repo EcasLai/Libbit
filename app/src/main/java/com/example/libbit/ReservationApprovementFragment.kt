@@ -62,10 +62,7 @@ class ReservationApprovementFragment : Fragment(){
                 }
             }
 
-
         }
-
-
 
     }
 
@@ -96,7 +93,7 @@ class ReservationApprovementFragment : Fragment(){
     }
 
 
-
+    //To retrieve Reservation by its Id
     private suspend fun getReservationById(reservationId: String): Reservation? {
         // Get instance of FirebaseFirestore
         val db = FirebaseFirestore.getInstance()
@@ -122,24 +119,21 @@ class ReservationApprovementFragment : Fragment(){
         }
     }
 
+    //Convert reservation to hold
     private fun placeHoldQRPhysical(reservationId: String?) {
-        val currentUser = firebaseAuth.currentUser
-
-        if (currentUser != null && reservationId != null) {
-            val userId = currentUser.uid // Get the current user's UID from Firebase Authentication
-
+        if (reservationId != null) {
             // Call the function within a coroutine scope
             CoroutineScope(Dispatchers.Main).launch {
                 val reservation = getReservationById(reservationId)
                 if (reservation != null) {
                     val holdTimestamp = Calendar.getInstance().timeInMillis
                     val holdData = hashMapOf(
-                        "userId" to userId,
-                        "reservationId" to reservationId,
+                        "userId" to reservation.userId,
+                        "bookId" to reservation.bookId,
                         "type" to HoldType.PHYSICAL_BOOK, // Assuming hold type is for physical books
                         "holdTimestamp" to holdTimestamp.toString(),
-                        "dueTimestamp" to null,
-                        "licenseKey" to reservationId,
+                        "dueTimestamp" to reservation.expirationTimestamp,
+                        "licenseKey" to reservation.bookId,
                         "status" to HoldStatus.HOLDING
                     )
                     // Add the hold to Firestore
