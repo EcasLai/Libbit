@@ -40,6 +40,8 @@ class SearchFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.searchBarBook.requestFocus()
+
         // Initialize Firestore
         firestore = FirebaseFirestore.getInstance()
 

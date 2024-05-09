@@ -86,8 +86,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        initView()
-
         executor.scheduleAtFixedRate({
             val dateFormat = SimpleDateFormat("EEEE dd/MM/yyyy", Locale.ENGLISH)
             val calendar = Calendar.getInstance()
@@ -104,8 +102,6 @@ class HomeFragment : Fragment() {
                 binding.tvMonthYear.text = "$month $year"
             }
         }, 0, 1, TimeUnit.HOURS)
-
-        val carouselViewPager = binding.carouselViewPager
 
         //Define clickListener
         val itemClickListener = object : BookAdapter.OnItemClickListener {
@@ -174,9 +170,16 @@ class HomeFragment : Fragment() {
             adapter = bookPopularAdapter
         }
 
-        binding.imgSearch.setOnClickListener{
+        binding.searchEditText.setOnClickListener{
             val navController = findNavController()
             navController.navigate(R.id.action_homeFragment_to_searchFragment)
+        }
+
+        binding.searchEditText.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                val navController = findNavController()
+                navController.navigate(R.id.action_homeFragment_to_searchFragment)
+            }
         }
 
         binding.imgQrScanner.setOnClickListener{

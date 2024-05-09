@@ -59,9 +59,9 @@
     </fragment>
     <fragment
         android:id="@+id/notificationActivities"
-        android:name="com.example.libbit.NotificationActivities"
+        android:name="com.example.libbit.FineFragment"
         android:label="fragment_notification"
-        tools:layout="@layout/fragment_notification" />
+        tools:layout="@layout/fragment_fine" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.libbit.LoginFragment"
