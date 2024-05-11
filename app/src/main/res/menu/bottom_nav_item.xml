@@ -3,15 +3,17 @@
     <item android:title="Book"
         android:id="@+id/bookFragment"
         android:icon="@drawable/baseline_menu_book_24"/>
-    <item android:title="Saved"
+    <item
         android:id="@+id/savedFragment"
-        android:icon="@drawable/baseline_settings_24"/>
+        android:icon="@drawable/baseline_book_24"
+        android:title="Saved" />
     <item android:title="Home"
         android:id="@+id/homeFragment"
         android:icon="@drawable/baseline_home_24"/>
-    <item android:title="Notification"
-        android:id="@+id/notificationActivities"
-        android:icon="@drawable/baseline_notifications_none_24"/>
+    <item
+        android:id="@+id/fineFragment"
+        android:icon="@drawable/baseline_fine_24"
+        android:title="Fine" />
     <item android:title="Profile"
         android:id="@+id/profileFragment"
         android:icon="@drawable/baseline_account_box_24"/>

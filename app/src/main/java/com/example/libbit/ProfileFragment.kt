@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.example.libbit.databinding.FragmentProfileBinding
 import com.example.libbit.util.AuthenticationManager
 import com.example.libbit.util.UserManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
@@ -26,6 +27,7 @@ class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var storage: FirebaseStorage
     private lateinit var auth: FirebaseAuth
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,6 +43,8 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val mainActivity = activity as? MainActivity
+
         //Set username profileImg for current user
         if (AuthenticationManager.getCurrentUser() == null) {
             findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
@@ -50,6 +54,7 @@ class ProfileFragment : Fragment() {
                 .load(UserManager.getCurrentUser()?.photoUrl)
                 .into(binding.profileImg)
         }
+
         //Profile Image setting
         binding.profileImg.setOnClickListener{
             // Open gallery to choose photo
@@ -59,7 +64,10 @@ class ProfileFragment : Fragment() {
         }
 
         binding.cvLogOut.setOnClickListener{
-            AuthenticationManager.signOut( findNavController())
+            AuthenticationManager.signOutFireAuth(findNavController())
+            mainActivity?.let { activity ->
+                activity.updateSelectedItem(R.id.homeFragment)
+            }
         }
 
         val user = FirebaseAuth.getInstance().currentUser
@@ -120,7 +128,7 @@ class ProfileFragment : Fragment() {
     }
 
     companion object {
-        private const val IMAGE_CHOOSE = 1000
+        private const val IMAGE_CHOOSE = 10000
         private var selectedImageUri: Uri? = null
     }
 }

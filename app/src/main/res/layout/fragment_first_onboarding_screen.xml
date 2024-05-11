@@ -49,7 +49,7 @@
         android:layout_marginStart="@dimen/screen_horizontal_margin"
         android:layout_marginTop="@dimen/element_margin"
         android:layout_marginEnd="@dimen/screen_horizontal_margin"
-        android:text="@string/dummy_text"
+        android:text="@string/first_onboarding_desc"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

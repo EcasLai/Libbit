@@ -16,6 +16,7 @@ import com.example.libbit.adapter.BookAdapter
 import com.example.libbit.databinding.FragmentBookDetailBinding
 import com.example.libbit.model.Book
 import com.example.libbit.model.BookStatus
+import com.example.libbit.model.Hold
 import com.example.libbit.model.HoldStatus
 import com.example.libbit.model.HoldType
 import com.example.libbit.util.FirestoreUtil
@@ -54,6 +55,8 @@ class BookDetailFragment : Fragment(){
 
         //Retrieve Book object from other fragment
         val book: Book? = arguments?.getParcelable("book")
+        val hold: Hold? = arguments?.getParcelable("hold")
+
         val db = Firebase.firestore
 
         //Dynamic Display book information
@@ -69,7 +72,7 @@ class BookDetailFragment : Fragment(){
             binding.btnBookDetailSubmit.text = book.status.toString()
 
             //Update reflect to book status
-            updateButtonStatus(book)
+            updateButtonStatus(book, hold)
 
         }
 
@@ -121,37 +124,30 @@ class BookDetailFragment : Fragment(){
         }
     }
 
-    private fun updateButtonStatus(book: Book) {
-        when (book.status) {
-            BookStatus.AVAILABLE -> {
-                binding.btnBookDetailSubmit.text = "Get book"
-                binding.btnBookDetailSubmit.setOnClickListener {
-                    showConfirmationDialog(book) {
-                        placeHold(book)
-                    }
-                }
-            }
-            BookStatus.ON_HOLD -> {
-                binding.btnBookDetailSubmit.text = "Reserve Book"
-                binding.btnBookDetailSubmit.setOnClickListener {
+    private fun updateButtonStatus(book: Book, hold: Hold?) {
+        val buttonText = when (book.status) {
+            BookStatus.AVAILABLE -> if (hold?.status in setOf(HoldStatus.HOLDING, HoldStatus.PURCHASED, HoldStatus.COMPLETED)) "Read Book" else "Get Book"
+            BookStatus.ON_HOLD -> if (hold?.status in setOf(HoldStatus.HOLDING, HoldStatus.PURCHASED, HoldStatus.COMPLETED)) "Read Book" else "Reserve Book"
+            BookStatus.PURCHASED -> if (hold?.status in setOf(HoldStatus.HOLDING, HoldStatus.PURCHASED, HoldStatus.COMPLETED)) "Read Book" else "Owned"
+            else -> if (hold?.status in setOf(HoldStatus.HOLDING, HoldStatus.PURCHASED, HoldStatus.COMPLETED)) "Read Book" else "Unavailable"
+        }
+        binding.btnBookDetailSubmit.text = buttonText
+
+        binding.btnBookDetailSubmit.setOnClickListener {
+            when (book.status) {
+                BookStatus.AVAILABLE -> if (buttonText == "Get Book") showConfirmationDialog(book) { placeHold(book) }
+                BookStatus.ON_HOLD -> if (buttonText == "Reserve Book") {
                     val bundle = Bundle().apply {
                         putParcelable("book", book)
                     }
                     val navController = findNavController()
                     navController.navigate(R.id.action_bookDetailFragment_to_makeReservationFragment, bundle)
-                    //placeReservation(book)
                 }
-            }
-            BookStatus.PURCHASED -> {
-                binding.btnBookDetailSubmit.text = "Owned"
-            }
-
-            else -> {
-                binding.btnBookDetailSubmit.text = "Unavailable"
+                else -> Unit // Do nothing for PURCHASED or other statuses
             }
         }
-
     }
+
 
     private fun showConfirmationDialog(book: Book, onConfirmed: () -> Unit) {
         val alertDialogBuilder = AlertDialog.Builder(context)

@@ -23,7 +23,7 @@ class HoldAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HoldViewHolder {
         val view =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.rv_item_reservation, parent, false)
+                .inflate(R.layout.rv_item_savedbook, parent, false)
         return HoldViewHolder(view)
     }
 
@@ -36,6 +36,11 @@ class HoldAdapter(
         holder.bind(hold, itemClickListener)
     }
 
+    fun clearData() {
+        holdList.clear()
+        notifyDataSetChanged()
+    }
+
     fun updateData(newHoldList: List<Hold>, newBooksMap: Map<String?, Book>) {
         holdList.clear()
         holdList.addAll(newHoldList)
@@ -45,12 +50,10 @@ class HoldAdapter(
     }
 
     inner class HoldViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val holdImageView : ImageView = itemView.findViewById(R.id.imgReserveBookCover)
-        val holdNameTv : TextView = itemView.findViewById(R.id.tvReserveTitle)
-        val holdAuthorTv : TextView = itemView.findViewById(R.id.tvReserveAuthor)
-        val holdLocationTv : TextView = itemView.findViewById(R.id.tvReserveVenue)
-        val holdDeadlineTv : TextView = itemView.findViewById(R.id.tvReserveDeadline)
-
+        val holdImageView : ImageView = itemView.findViewById(R.id.imgSavedBookCover)
+        val holdNameTv : TextView = itemView.findViewById(R.id.tvSavedTitle)
+        val holdAuthorTv : TextView = itemView.findViewById(R.id.tvSavedAuthor)
+        val holdStatusTv : TextView = itemView.findViewById(R.id.tvSavedStatus)
 
         fun bind(hold: Hold, clickListener: OnItemClickListener) {
 
@@ -63,9 +66,9 @@ class HoldAdapter(
                 Glide.with(itemView.context)
                     .load(book?.bookImage)
                     .into(holdImageView)
-                holdDeadlineTv.text = formattedDate
-                holdLocationTv.text = "HelloTest"
-                itemView.setOnClickListener { clickListener.onItemClick(hold) }
+                holdStatusTv.text = hold.status.toString()
+
+                itemView.setOnClickListener { clickListener.onItemClick(hold, book) }
 
 
         }
@@ -82,6 +85,6 @@ class HoldAdapter(
     }
 
     interface OnItemClickListener {
-        fun onItemClick(hold: Hold)
+        fun onItemClick(hold: Hold, book: Book?)
     }
 }

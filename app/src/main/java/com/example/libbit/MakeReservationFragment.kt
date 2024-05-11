@@ -77,7 +77,7 @@ class MakeReservationFragment : Fragment(){
 
             if(binding.venueSpinner != null && binding.editTextReserveDate != null){
                 binding.btnMakeReservationSubmit.setOnClickListener {
-                    showConfirmationDialog(book){
+                    showConfirmationDialog(){
                         placeReservation(book)
                     }
                 }
@@ -100,6 +100,7 @@ class MakeReservationFragment : Fragment(){
                 "userId" to userId,
                 "bookId" to book.id,
                 "type" to book.type,
+                "timestamp" to binding.editTextReserveDate.text.toString(),
                 "expirationTimestamp" to binding.editTextDeadlineDate.text.toString(),
                 "location" to binding.venueSpinner.selectedItem.toString(),
                 "status" to ReservationStatus.RESERVED
@@ -114,6 +115,7 @@ class MakeReservationFragment : Fragment(){
                 .addOnFailureListener { e ->
                     Toast.makeText(context, "Fail Add Book", Toast.LENGTH_SHORT).show()
                 }
+
         } else {
             Toast.makeText(context, "Firebase Authentication Fail, Try Again", Toast.LENGTH_SHORT).show()
         }
@@ -161,13 +163,13 @@ class MakeReservationFragment : Fragment(){
         binding.venueSpinner.adapter = adapter
     }
 
-    private fun showConfirmationDialog(book: Book, onConfirmed: () -> Unit) {
+    private fun showConfirmationDialog(onConfirmed: () -> Unit) {
         val alertDialogBuilder = AlertDialog.Builder(context)
         alertDialogBuilder.apply {
             setTitle("Confirmation")
             setMessage("Are you sure you want to proceed?")
             setPositiveButton("Yes") { dialog, which ->
-                placeReservation(book)
+                onConfirmed() // Call the provided function to proceed with the action
                 dialog.dismiss()
             }
             setNegativeButton("No") { dialog, which ->

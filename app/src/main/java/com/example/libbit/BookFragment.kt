@@ -51,7 +51,9 @@ class BookFragment : Fragment() {
                     if (reservationsWithBooks.isNotEmpty()) {
                         val reservations = reservationsWithBooks.map { it.first } // Extract reservations from pairs
                         val booksMap = reservationsWithBooks.map { it.second.id to it.second }.toMap()
+
                         reservationAdapter.updateData(reservations, booksMap)
+                        binding.progressBarReserve.visibility = View.GONE
                     } else {
                         Toast.makeText(context, "No reservations found", Toast.LENGTH_SHORT).show()
                     }

@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_reservationApprovementFragment"
+            app:destination="@id/reservationApprovementFragment" />
     </fragment>
     <fragment
         android:id="@+id/bookDetailFragment"
@@ -38,7 +41,11 @@
         android:id="@+id/savedFragment"
         android:name="com.example.libbit.SavedFragment"
         android:label="fragment_saved"
-        tools:layout="@layout/fragment_saved" />
+        tools:layout="@layout/fragment_saved" >
+        <action
+            android:id="@+id/action_savedFragment_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.libbit.ProfileFragment"
@@ -51,10 +58,10 @@
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
-        android:id="@+id/notificationActivities"
-        android:name="com.example.libbit.NotificationActivities"
+        android:id="@+id/fineFragment"
+        android:name="com.example.libbit.FineFragment"
         android:label="fragment_notification"
-        tools:layout="@layout/fragment_notification" />
+        tools:layout="@layout/fragment_fine" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.libbit.LoginFragment"
@@ -86,15 +93,26 @@
         tools:layout="@layout/fragment_onboarding" >
         <action
             android:id="@+id/action_onboardingFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/reservationDetailFragment"
         android:name="com.example.libbit.ReservationDetailFragment"
-        android:label="ReservationDetailFragment" />
+        android:label="ReservationDetailFragment" >
+        <action
+            android:id="@+id/action_reservationDetailFragment_to_bookFragment"
+            app:destination="@id/bookFragment"
+            app:popUpTo="@id/bookFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/makeReservationFragment"
         android:name="com.example.libbit.MakeReservationFragment"
         android:label="fragment_make_reservation"
         tools:layout="@layout/fragment_make_reservation" />
+    <fragment
+        android:id="@+id/reservationApprovementFragment"
+        android:name="com.example.libbit.ReservationApprovementFragment"
+        android:label="ReservationApprovementFragment" />
 </navigation>
