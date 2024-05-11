@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Total to pay"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,8 +35,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="amount"
-        android:textSize="30sp"
+        android:text="-"
+        android:textSize="34sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTotalFineHint" />
@@ -48,14 +49,15 @@
         android:layout_marginStart="@dimen/screen_horizontal_margin"
         android:text="Upcoming Bill"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/btnPayFine" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnPayFine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Pay Fine"
+        app:cornerRadius="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTotalFine" />
@@ -64,11 +66,13 @@
         android:id="@+id/rvFine"
         android:layout_width="0dp"
         android:layout_height="623dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6"
-        tools:listitem="@layout/rv_item_fine"/>
+        tools:listitem="@layout/rv_item_fine" />
 
     <ProgressBar
         android:id="@+id/progressBar"

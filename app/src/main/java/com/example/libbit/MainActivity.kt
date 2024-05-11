@@ -1,10 +1,7 @@
 package com.example.libbit
 
-import android.content.Context
-import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -53,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateBottomNavigationVisibility(fragmentId: Int) {
-        val bottomNavigationVisibleFragments = setOf(R.id.homeFragment, R.id.bookFragment, R.id.profileFragment, R.id.savedFragment, R.id.notificationActivities)
+        val bottomNavigationVisibleFragments = setOf(R.id.homeFragment, R.id.bookFragment, R.id.profileFragment, R.id.savedFragment, R.id.fineFragment)
         binding.bottomNavigationView.visibility =
             if (fragmentId in bottomNavigationVisibleFragments) View.VISIBLE else View.GONE
     }

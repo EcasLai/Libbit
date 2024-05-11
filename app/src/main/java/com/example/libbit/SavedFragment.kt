@@ -84,8 +84,6 @@ class SavedFragment : Fragment() {
     }
 
     private fun retrieveSavedBook(bookType: String){
-
-        Toast.makeText(context, "Testing is $bookType", Toast.LENGTH_SHORT).show()
         binding.progressBarSaved.visibility = View.VISIBLE
 
         holdAdapter.clearData()

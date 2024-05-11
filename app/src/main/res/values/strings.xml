@@ -10,4 +10,9 @@
     <string name="view_all_text"><![CDATA[View all >]]></string>
     <string name="welcome_slider">Welcome</string>
     <string name="dummy_text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis</string>
+    <string name="first_onboarding_desc">Dive into the world of books with Libbit! Explore a vast collection of titles, discover new authors, and embark on exciting literary journeys. Let\'s get started!</string>
+    <string name="second_onboarding_desc">Whether you\'re into thrillers, romance, or sci-fi, [Your Libbit has something for everyone. Browse through curated collections, explore trending titles, and find your next favorite read effortlessly.</string>
+    <string name="second_onboardng_title">Discover New Adventures</string>
+    <string name="third_onboarding_desc">With Libbit, your reading experience is personalized just for you. Receive tailored recommendations based on your interests, track your reading progress, and never miss out on the latest releases from your favorite authors.</string>
+    <string name="third_onboarding_title">Your Personal Reading Companion</string>
 </resources>

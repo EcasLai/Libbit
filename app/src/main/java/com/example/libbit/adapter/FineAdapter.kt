@@ -62,7 +62,8 @@ class FineAdapter(
 
             fineTitleTv.text = fine?.title ?: "Unknown Fine Title"
             fineIssueDateTv.text = fine?.issueTimestamp ?: "Unknown Fine Issued Date"
-            fineAmountTv.text = fine?.fineAmount ?: "Unknown Fine Issued Date"
+            val fineAmountText = fine?.fineAmount ?: "Unknown Fine Amount"
+            fineAmountTv.text = String.format("%.2f", fineAmountText.toDoubleOrNull() ?: 0.0)
 
             itemView.setOnClickListener { clickListener.onItemClick(fine) }
 

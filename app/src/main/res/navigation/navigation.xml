@@ -58,7 +58,7 @@
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
-        android:id="@+id/notificationActivities"
+        android:id="@+id/fineFragment"
         android:name="com.example.libbit.FineFragment"
         android:label="fragment_notification"
         tools:layout="@layout/fragment_fine" />

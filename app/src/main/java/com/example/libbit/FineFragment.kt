@@ -58,17 +58,21 @@ class FineFragment: Fragment() {
 
         fineAdapter = FineAdapter(ArrayList(), itemClickListener)
 
+
         FirestoreUtil.getFine(
             "fines",
             onSuccess = { fineList ->
                 activity?.runOnUiThread {
+                    // Update RecyclerView with fine data
                     fineAdapter.updateData(fineList)
                     binding.progressBar.visibility = View.GONE
 
                     // Calculate total fine and display it
                     val totalFine = fineAdapter.calculateTotalFine()
-                    binding.tvTotalFine.text = totalFine.toString()
-                    Toast.makeText(context, "Total Fine: $totalFine", Toast.LENGTH_SHORT).show()
+                    val totalFineText = String.format("%.2f", totalFine)
+                    binding.tvTotalFine.text = "RM ${totalFineText}"
+
+
                 }
             },
             onFailure = { exception ->
