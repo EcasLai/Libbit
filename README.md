@@ -2,7 +2,7 @@
 
 Welcome to Libbit App! This is a simple yet powerful application designed to help you manage your personal library collection efficiently. Whether you're an avid reader or a book enthusiast, Libbit is here to assist you in organizing, tracking, and discovering your favorite books.
 
-![Libbit Logo](https://firebasestorage.googleapis.com/v0/b/libbit-library-app.appspot.com/o/Extra%2FIcon-512.png?alt=media&token=11407338-59a7-432e-92cc-bf9f6f0d74b8)
+<img src="https://firebasestorage.googleapis.com/v0/b/libbit-library-app.appspot.com/o/Extra%2FIcon-512.png?alt=media&token=11407338-59a7-432e-92cc-bf9f6f0d74b8" width="150">
 
 ## Features
 
