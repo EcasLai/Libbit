@@ -1,5 +1,6 @@
 package com.example.libbit.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.libbit.R
 import com.example.libbit.model.Book
 import com.example.libbit.model.Reservation
+import com.example.libbit.model.ReservationStatus
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -33,15 +35,30 @@ class ReservationAdapter(
 
     override fun onBindViewHolder(holder: ReservationViewHolder, position: Int) {
         val reservation = reservationList[position]
-        holder.bind(reservation, itemClickListener)
+
+        // Update views based on reservation status
+        when (reservation.status) {
+            ReservationStatus.FULFILLED -> {
+                // For FULFILLED reservations, make the item less appealing
+                holder.itemView.alpha = 0.5f // Reduce opacity
+                holder.itemView.setBackgroundColor(Color.LTGRAY) // Change background color
+                holder.bind(reservation, itemClickListener) // Update views
+            }
+            else -> {
+                // For other statuses, display as usual
+                holder.itemView.alpha = 1.0f // Reset opacity
+                holder.itemView.setBackgroundColor(Color.WHITE) // Reset background color
+                holder.bind(reservation, itemClickListener) // Update views
+            }
+        }
     }
 
     fun updateData(newReservationList: List<Reservation>, newBooksMap: Map<String?, Book>) {
         reservationList.clear()
         reservationList.addAll(newReservationList)
         notifyDataSetChanged()
-        // Update the reference to the booksMap
-        this.booksMap = newBooksMap.filterKeys { it != null }.mapKeys { it.key!! }
+        // Update the reference to the booksMap while handling null keys
+        this.booksMap = newBooksMap.filterKeys { it != null }.mapKeys { it.key ?: "" } // Replace null keys with empty strings
     }
 
     inner class ReservationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -1,5 +1,6 @@
 package com.example.libbit.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,13 +42,19 @@ class HoldAdapter(
         notifyDataSetChanged()
     }
 
-    fun updateData(newHoldList: List<Hold>, newBooksMap: Map<String?, Book>) {
+    fun updateData(newHoldList: List<Hold>, newBooksMap: Map<String, Book>) {
         holdList.clear()
         holdList.addAll(newHoldList)
         notifyDataSetChanged()
+
+        // Filter out entries with null keys from the newBooksMap
+        val filteredBooksMap = newBooksMap.filterKeys { it != null }.mapKeys { it.key!! }
+
         // Update the reference to the booksMap
-        this.booksMap = newBooksMap.filterKeys { it != null }.mapKeys { it.key!! }
+        this.booksMap = filteredBooksMap
+        Log.d("HoldAdapter", "Books map size: ${booksMap.size}")
     }
+
 
     inner class HoldViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val holdImageView : ImageView = itemView.findViewById(R.id.imgSavedBookCover)
@@ -69,8 +76,6 @@ class HoldAdapter(
                 holdStatusTv.text = hold.status.toString()
 
                 itemView.setOnClickListener { clickListener.onItemClick(hold, book) }
-
-
         }
 
         //convert long type into date

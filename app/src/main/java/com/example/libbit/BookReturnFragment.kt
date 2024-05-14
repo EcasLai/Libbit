@@ -17,10 +17,13 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.libbit.adapter.BookAdapter
 import com.example.libbit.databinding.FragmentBookDetailBinding
+import com.example.libbit.databinding.FragmentBookReturnBinding
 import com.example.libbit.databinding.FragmentReservationDetailBinding
 import com.example.libbit.model.Book
+import com.example.libbit.model.Hold
 import com.example.libbit.model.Reservation
 import com.example.libbit.model.ReservationStatus
+import com.example.libbit.util.TimeUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -31,9 +34,9 @@ import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.QRCodeWriter
 import java.util.Calendar
 
-class ReservationDetailFragment : Fragment(){
+class BookReturnFragment : Fragment(){
 
-    private lateinit var binding: FragmentReservationDetailBinding
+    private lateinit var binding: FragmentBookReturnBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
 
@@ -50,7 +53,7 @@ class ReservationDetailFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentReservationDetailBinding.inflate(inflater, container, false)
+        binding = FragmentBookReturnBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -59,65 +62,27 @@ class ReservationDetailFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
         //Retrieve Book object from other fragment
-        val reservation: Reservation? = arguments?.getParcelable("reservation")
+        val hold: Hold? = arguments?.getParcelable("hold")
         val db = Firebase.firestore
 
 
-        if (reservation != null) {
+        if (hold != null) {
             // Set the book details
-            Log.d("HoldAdapter", "Item clicked. Hold: $reservation")
-            binding.tvReservationDetailDate.text = reservation.timestamp
-            binding.tvReservationDetailExpiry.text = reservation.expirationTimestamp
-            binding.tvReservationDetailLocation.text = reservation.location
-            binding.tvReservationDetailStatus.text = reservation.status.toString()
+            val holdTimestamp = hold.holdTimestamp?.let { TimeUtil.convertTimestampToDate(it) }
+            val holdExpiry = hold.holdTimestamp?.let { TimeUtil.convertTimestampToDate(it) }
 
-            //Cancel Booking
-            binding.btnReservationDetailCancel.setOnClickListener {
-                showConfirmationDialog(){
-                    cancelReservation(reservation)
-                }
-            }
+            binding.tvBookReturnDate.text = holdTimestamp
+            binding.tvBookReturnExpiry.text = holdExpiry
 
-            binding.btnReservationDetailModify.setOnClickListener {
-                val bottomSheetFragment = ModifyReservationBottomSheetFragment.newInstance(reservation)
-                bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
-            }
         }
 
-        binding.btnReservationDetailBack.setOnClickListener{
+        binding.btnBookReturnBack.setOnClickListener{
             findNavController().navigateUp()
         }
 
-        val qrCodeImage = generateQRCode("RES-${reservation?.id}-${reservation?.userId}", 200, 200)
+        val qrCodeImage = generateQRCode("RET-${hold?.id}-${hold?.userId}", 200, 200)
 
-        binding.imgReservationDetailQR.setImageBitmap(qrCodeImage)
-    }
-
-    private fun cancelReservation(reservation: Reservation){
-        db.collection("reservations").document(reservation.id.toString())
-            .delete()
-            .addOnSuccessListener {
-
-            }
-            .addOnFailureListener {
-
-            }
-        findNavController().navigate(R.id.action_reservationDetailFragment_to_bookFragment)
-    }
-
-    private fun showConfirmationDialog(onConfirmed: () -> Unit) {
-        val alertDialogBuilder = AlertDialog.Builder(context)
-        alertDialogBuilder.apply {
-            setTitle("Confirmation")
-            setMessage("Are you sure you want to proceed?")
-            setPositiveButton("Yes") { dialog, which ->
-                onConfirmed() // Call the provided function to proceed with the action
-                dialog.dismiss()
-            }
-            setNegativeButton("No") { dialog, which ->
-                dialog.dismiss()
-            }
-        }.create().show()
+        binding.imgBookReturnQR.setImageBitmap(qrCodeImage)
     }
 
     // Function to generate QR code

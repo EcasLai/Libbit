@@ -227,7 +227,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-
     //Extract QR Content
     private fun parseQRContent(contents: String): Pair<String?, String?> {
 

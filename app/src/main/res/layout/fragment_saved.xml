@@ -59,27 +59,17 @@
             app:layout_constraintStart_toEndOf="@+id/savedBtnBook"
             app:layout_constraintTop_toTopOf="@+id/savedBtnBook"/>
 
-        <TextView
-            android:id="@+id/savedSavedHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/screen_horizontal_margin"
-            android:layout_marginTop="@dimen/screen_vertical_margin"
-            android:text="@string/saved_recent_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/savedBtnBook" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvBookSaved"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/screen_horizontal_margin"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="@dimen/screen_horizontal_margin"
             android:forceHasOverlappingRendering="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/savedSavedHeader"
+            app:layout_constraintTop_toBottomOf="@+id/savedBtnBook"
             tools:listitem="@layout/rv_item_savedbook" />
 
         <ProgressBar
@@ -92,6 +82,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/savedBtnBook" />
+
+        <TextView
+            android:id="@+id/tvEmptyHold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="No book owned"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgEmptyHold" />
+
+        <ImageView
+            android:id="@+id/imgEmptyHold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:src="@drawable/icon_empty_box"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rvBookSaved" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

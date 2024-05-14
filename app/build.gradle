@@ -42,9 +42,20 @@ android {
 
 dependencies {
 
+    implementation 'link.magic:magic-android:4.0.0'
+    implementation 'org.web3j:core:4.8.8-android'
+    implementation 'org.web3j:geth:4.8.8-android'
+
     //QR code Zxing
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
     implementation 'com.google.zxing:core:3.4.1'
+
+    // Add the Firebase Core and Cloud Messaging dependencies
+    implementation 'com.google.firebase:firebase-core:20.0.0'
+    implementation 'com.google.firebase:firebase-messaging:23.0.0'
+
+    //PdfViewer
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -56,6 +67,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.7.7'
     implementation 'androidx.navigation:navigation-ui-ktx:2.7.7'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
     implementation 'com.google.firebase:firebase-database-ktx:20.3.0'

@@ -1,5 +1,6 @@
 package com.example.libbit
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -22,6 +23,7 @@ import com.example.libbit.model.Fine
 import com.example.libbit.model.Hold
 import com.example.libbit.model.HoldType
 import com.example.libbit.util.FirestoreUtil
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Locale
 
@@ -29,6 +31,7 @@ class FineFragment: Fragment() {
 
     private lateinit var binding: FragmentFineBinding
     private lateinit var firestore: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
     private lateinit var fineAdapter: FineAdapter
 
     override fun onCreateView(
@@ -39,11 +42,16 @@ class FineFragment: Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentFineBinding.inflate(inflater, container, false)
 
+        auth = FirebaseAuth.getInstance()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val currentUser = auth.currentUser
+        val userId = currentUser?.uid
 
         val itemClickListener = object : FineAdapter.OnItemClickListener {
             override fun onItemClick(fine: Fine) {
@@ -58,9 +66,11 @@ class FineFragment: Fragment() {
 
         fineAdapter = FineAdapter(ArrayList(), itemClickListener)
 
+        binding.progressBar.visibility = View.VISIBLE
 
         FirestoreUtil.getFine(
             "fines",
+            userId,
             onSuccess = { fineList ->
                 activity?.runOnUiThread {
                     // Update RecyclerView with fine data
@@ -72,13 +82,16 @@ class FineFragment: Fragment() {
                     val totalFineText = String.format("%.2f", totalFine)
                     binding.tvTotalFine.text = "RM ${totalFineText}"
 
-
                 }
             },
             onFailure = { exception ->
                 // Handle any errors
                 // You may want to display a message to the user
                 binding.progressBar.visibility = View.GONE
+            },
+            onEmpty = {
+                // Handle empty reservations
+                showEmptyFineMessage()
             }
         )
 
@@ -87,6 +100,57 @@ class FineFragment: Fragment() {
             adapter = fineAdapter
         }
 
+        if (userId != null) {
+            binding.btnPayFine.setOnClickListener {
+                showConfirmationDialog(userId){
+                    FirestoreUtil.removeFine(
+                        userId,
+                        onSuccess = {
+                            // Fine removed successfully
+                            Toast.makeText(requireContext(), "Fine cleared successfully", Toast.LENGTH_SHORT).show()
+                            // You can update UI or perform any other action here
+                        },
+                        onFailure = { exception ->
+                            // Handle failure to remove fine
+                            Toast.makeText(requireContext(), "Failed to remove fine: ${exception.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                }
+            }
+        }
+
+    }
+
+    private fun showEmptyFineMessage(){
+        binding.imgNoFine.visibility = View.VISIBLE
+        binding.tvNoFine.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.GONE
+    }
+
+    private fun showConfirmationDialog(userId: String?, onConfirmed: () -> Unit) {
+        val alertDialogBuilder = AlertDialog.Builder(context)
+        alertDialogBuilder.apply {
+            setTitle("Confirmation")
+            setMessage("Are you sure you want to proceed?")
+            setPositiveButton("Yes") { dialog, which ->
+                FirestoreUtil.removeFine(
+                    userId,
+                    onSuccess = {
+                        // Fine removed successfully
+                        Toast.makeText(requireContext(), "Fine cleared successfully", Toast.LENGTH_SHORT).show()
+                        // You can update UI or perform any other action here
+                    },
+                    onFailure = { exception ->
+                        // Handle failure to remove fine
+                        Toast.makeText(requireContext(), "Failed to remove fine: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    }
+                )
+                dialog.dismiss()
+            }
+            setNegativeButton("No") { dialog, which ->
+                dialog.dismiss()
+            }
+        }.create().show()
     }
 
 }

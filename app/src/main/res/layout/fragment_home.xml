@@ -157,16 +157,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rvBookHot" />
 
-    <TextView
-        android:id="@+id/tvPopularViewAll"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/element_margin_far"
-        android:layout_marginEnd="@dimen/screen_horizontal_margin"
-        android:text="@string/view_all_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvBookHot" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvBookPopular"
         android:layout_width="0dp"

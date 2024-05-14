@@ -14,7 +14,6 @@ class BookAdapter(private val bookList: ArrayList<Book>,
                   private val itemClickListener: OnItemClickListener
                   ) : RecyclerView.Adapter<BookAdapter.BookViewHolder>(){
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item_hotpick, parent, false)
         return BookViewHolder(view)

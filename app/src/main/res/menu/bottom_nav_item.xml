@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="Book"
-        android:id="@+id/bookFragment"
-        android:icon="@drawable/baseline_menu_book_24"/>
+    <item
+        android:id="@+id/reservationFragment"
+        android:icon="@drawable/baseline_menu_book_24"
+        android:title="Reservation" />
     <item
         android:id="@+id/savedFragment"
         android:icon="@drawable/baseline_book_24"

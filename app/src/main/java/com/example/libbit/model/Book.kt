@@ -12,6 +12,8 @@ data class Book(
     val description:String? = null,
     val author:String? = null,
     val price:String? = null,
+    val bookUrl: String? = null,
+    val genre: BookGenre? = null,
     val type: HoldType? = null,
     val status: BookStatus? = null
 
@@ -25,6 +27,8 @@ data class Book(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        BookGenre.valueOf(parcel.readString()?: ""),
         HoldType.valueOf(parcel.readString()?: ""),
         BookStatus.valueOf(parcel.readString()?: "")
     )
@@ -37,6 +41,8 @@ data class Book(
         parcel.writeString(description)
         parcel.writeString(author)
         parcel.writeString(price)
+        parcel.writeString(bookUrl)
+        parcel.writeString(genre?.name)
         parcel.writeString(type?.name)
         parcel.writeString(status?.name)
     }
@@ -70,4 +76,12 @@ enum class BookStatus{
     PURCHASED,
     DAMAGED,
     LOST;
+}
+
+enum class BookGenre{
+    FANTASY,
+    ROMANCE,
+    MYSTERY,
+    SCIENCE_FICTION,
+    HORROR;
 }

@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateBottomNavigationVisibility(fragmentId: Int) {
-        val bottomNavigationVisibleFragments = setOf(R.id.homeFragment, R.id.bookFragment, R.id.profileFragment, R.id.savedFragment, R.id.fineFragment)
+        val bottomNavigationVisibleFragments = setOf(R.id.homeFragment, R.id.reservationFragment, R.id.profileFragment, R.id.savedFragment, R.id.fineFragment)
         binding.bottomNavigationView.visibility =
             if (fragmentId in bottomNavigationVisibleFragments) View.VISIBLE else View.GONE
     }
