@@ -97,12 +97,12 @@ class ReservationDetailFragment : Fragment(){
         db.collection("reservations").document(reservation.id.toString())
             .delete()
             .addOnSuccessListener {
-
+                Toast.makeText(context, "Successful Cancel Reservation", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_reservationDetailFragment_to_bookFragment)
             }
             .addOnFailureListener {
 
             }
-        findNavController().navigate(R.id.action_reservationDetailFragment_to_bookFragment)
     }
 
     private fun showConfirmationDialog(onConfirmed: () -> Unit) {

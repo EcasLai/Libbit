@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.example.libbit.databinding.BottomsheetModifyReservationBinding
 import com.example.libbit.model.Reservation
 import com.example.libbit.util.TimeUtil
@@ -72,6 +73,8 @@ class ModifyReservationBottomSheetFragment: BottomSheetDialogFragment() {
             )
             .addOnSuccessListener {
                 Toast.makeText(requireContext(), "Modify Successful", Toast.LENGTH_SHORT).show()
+                dismiss()
+                findNavController().navigate(R.id.action_reservationDetailFragment_to_bookFragment)
             }
             .addOnFailureListener {
 

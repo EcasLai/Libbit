@@ -63,6 +63,15 @@ data class Book(
 
 }
 
+data class BlockchainBook(
+    val bookId: String,
+    val title: String,
+    val author: String,
+    val copiesAvailable: Int,
+    val copiesBorrowed: Int
+
+)
+
 typealias BookDetailsProvider = (String) -> Book?
 
 enum class HoldType{

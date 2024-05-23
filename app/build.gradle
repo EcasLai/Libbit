@@ -36,7 +36,11 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildToolsVersion '30.0.2'
+    buildToolsVersion '34.0.0'
+
+    configurations{
+        all*.exclude module: 'bcprov-jdk15on'
+    }
 }
 
 
@@ -69,7 +73,6 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-messaging-ktx:23.1.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
-    implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
     implementation 'com.google.firebase:firebase-database-ktx:20.3.0'
     implementation 'com.google.firebase:firebase-firestore-ktx:24.10.2'
     implementation 'com.google.firebase:firebase-storage-ktx:20.3.0'
