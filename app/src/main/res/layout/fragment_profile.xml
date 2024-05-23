@@ -17,23 +17,32 @@
         tools:layout_editor_absoluteY="0dp">
     <!-- TODO: Update blank fragment layout -->
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/profilePicCV"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="60dp"
-        app:cardCornerRadius="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/profilePicCV"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="24dp"
+            app:cardCornerRadius="100dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvProfileHeader">
 
-        <ImageView
-            android:id="@+id/profileImg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            tools:src="@tools:sample/avatars" />
-    </androidx.cardview.widget.CardView>
+            <ImageView
+                android:id="@+id/profileImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                tools:src="@tools:sample/avatars" />
+
+            <ProgressBar
+                android:id="@+id/profileImgProgress"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:foregroundGravity="center"
+                android:visibility="gone" />
+
+        </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/profileNameTv"
@@ -318,7 +327,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="@dimen/element_margin"
-                android:src="@drawable/baseline_settings_24"
+                android:src="@drawable/baseline_logout_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -330,6 +339,7 @@
                 android:layout_marginStart="24dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Log Out"
+                android:textColor="#A40202"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView9"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -343,6 +353,28 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tvProfileHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/screen_horizontal_margin"
+            android:layout_marginTop="@dimen/screen_vertical_margin"
+            android:text="PROFILE"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipDarkMode"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:text="Dark Mode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

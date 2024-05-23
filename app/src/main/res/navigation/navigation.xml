@@ -12,10 +12,12 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_bookDetailFragment"
-            app:destination="@id/bookDetailFragment" />
+            app:destination="@id/bookDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim" />
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/anim_in_bottom" />
         <action
             android:id="@+id/action_homeFragment_to_reservationApprovementFragment"
             app:destination="@id/reservationApprovementFragment" />
@@ -27,10 +29,16 @@
         <action
             android:id="@+id/action_bookDetailFragment_to_makeReservationFragment"
             app:destination="@id/makeReservationFragment" />
+        <action
+            android:id="@+id/action_bookDetailFragment_to_bookViewFragment"
+            app:destination="@id/bookViewFragment" />
+        <action
+            android:id="@+id/action_bookDetailFragment_to_bookReturnFragment"
+            app:destination="@id/bookReturnFragment" />
     </fragment>
     <fragment
-        android:id="@+id/bookFragment"
-        android:name="com.example.libbit.BookFragment"
+        android:id="@+id/reservationFragment"
+        android:name="com.example.libbit.ReservationFragment"
         android:label="fragment_book"
         tools:layout="@layout/fragment_book" >
         <action
@@ -102,8 +110,8 @@
         android:label="ReservationDetailFragment" >
         <action
             android:id="@+id/action_reservationDetailFragment_to_bookFragment"
-            app:destination="@id/bookFragment"
-            app:popUpTo="@id/bookFragment"
+            app:destination="@id/reservationFragment"
+            app:popUpTo="@id/reservationFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -115,4 +123,12 @@
         android:id="@+id/reservationApprovementFragment"
         android:name="com.example.libbit.ReservationApprovementFragment"
         android:label="ReservationApprovementFragment" />
+    <fragment
+        android:id="@+id/bookViewFragment"
+        android:name="com.example.libbit.BookViewFragment"
+        android:label="BookViewFragment" />
+    <fragment
+        android:id="@+id/bookReturnFragment"
+        android:name="com.example.libbit.BookReturnFragment"
+        android:label="BookReturnFragment" />
 </navigation>

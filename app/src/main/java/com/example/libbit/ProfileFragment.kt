@@ -1,7 +1,9 @@
 package com.example.libbit
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -11,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -27,6 +30,7 @@ class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var storage: FirebaseStorage
     private lateinit var auth: FirebaseAuth
+    private lateinit var fragmentContext: Context
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +41,8 @@ class ProfileFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         storage = FirebaseStorage.getInstance()
 
+        fragmentContext = requireContext() // Store the context
+
         return binding.root
     }
 
@@ -45,7 +51,7 @@ class ProfileFragment : Fragment() {
 
         val mainActivity = activity as? MainActivity
 
-        //Set username profileImg for current user
+        //Set username profileImg for current user66666666
         if (AuthenticationManager.getCurrentUser() == null) {
             findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
         } else {
@@ -53,6 +59,15 @@ class ProfileFragment : Fragment() {
             Glide.with(this)
                 .load(UserManager.getCurrentUser()?.photoUrl)
                 .into(binding.profileImg)
+        }
+
+        // Set an OnClickListener to handle chip clicks
+        binding.chipDarkMode.setOnClickListener {
+            // Toggle dark mode
+            toggleDarkMode()
+
+            // Update chip's checked state
+            binding.chipDarkMode.isChecked = isDarkModeEnabled()
         }
 
         //Profile Image setting
@@ -63,11 +78,9 @@ class ProfileFragment : Fragment() {
             startActivityForResult(intent, IMAGE_CHOOSE)
         }
 
-        binding.cvLogOut.setOnClickListener{
-            AuthenticationManager.signOutFireAuth(findNavController())
-            mainActivity?.let { activity ->
-                activity.updateSelectedItem(R.id.homeFragment)
-            }
+        // Set logout button click listener with confirmation dialog
+        binding.cvLogOut.setOnClickListener {
+            showLogoutConfirmationDialog()
         }
 
         val user = FirebaseAuth.getInstance().currentUser
@@ -88,6 +101,22 @@ class ProfileFragment : Fragment() {
             // No user is signed in
             Log.d(TAG, "No user is currently signed in.")
         }
+
+        reloadData()
+    }
+
+    private fun reloadData() {
+        // Load or reload data here
+        // For example, you can update the user's profile image and name
+        binding.profileNameTv.text = UserManager.getCurrentUser()?.displayName
+        Glide.with(this)
+            .load(UserManager.getCurrentUser()?.photoUrl)
+            .into(binding.profileImg)
+    }
+    override fun onResume() {
+        super.onResume()
+        // Reload data whenever the Fragment becomes visible
+        reloadData()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -106,6 +135,8 @@ class ProfileFragment : Fragment() {
 
         val uploadTask = profileImageRef.putFile(imageUri)
 
+        binding.profileImgProgress.visibility = View.VISIBLE
+
         uploadTask.addOnSuccessListener { taskSnapshot ->
             profileImageRef.downloadUrl.addOnSuccessListener { uri ->
                 // Update user profile photo URI
@@ -116,15 +147,46 @@ class ProfileFragment : Fragment() {
                 auth.currentUser?.updateProfile(profileUpdates)
                     ?.addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Toast.makeText(requireContext(), "Profile photo updated successfully", Toast.LENGTH_SHORT).show()
+                            reloadData()
+                            binding.profileImgProgress.visibility = View.GONE
+                            Toast.makeText(fragmentContext, "Profile photo updated successfully", Toast.LENGTH_SHORT).show()
                         } else {
-                            Toast.makeText(requireContext(), "Failed to update profile photo", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(fragmentContext, "Failed to update profile photo", Toast.LENGTH_SHORT).show()
                         }
                     }
             }
         }.addOnFailureListener { exception ->
-            Toast.makeText(requireContext(), "Upload failed: ${exception.message}", Toast.LENGTH_SHORT).show()
+            binding.profileImgProgress.visibility = View.GONE
+            Toast.makeText(fragmentContext, "Upload failed: ${exception.message}", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun showLogoutConfirmationDialog() {
+        AlertDialog.Builder(fragmentContext)
+            .setTitle("Logout")
+            .setMessage("Are you sure you want to log out?")
+            .setPositiveButton("Yes") { dialog, which ->
+                // Perform logout
+                AuthenticationManager.signOutFireAuth(findNavController())
+                val mainActivity = activity as? MainActivity
+                mainActivity?.updateSelectedItem(R.id.homeFragment)
+                dialog.dismiss()
+            }
+            .setNegativeButton("No") { dialog, which ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun isDarkModeEnabled(): Boolean {
+        // Check if dark mode is enabled
+        return AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+    }
+
+    private fun toggleDarkMode() {
+        // Toggle dark mode
+        val newMode = if (isDarkModeEnabled()) AppCompatDelegate.MODE_NIGHT_NO else AppCompatDelegate.MODE_NIGHT_YES
+        AppCompatDelegate.setDefaultNightMode(newMode)
     }
 
     companion object {

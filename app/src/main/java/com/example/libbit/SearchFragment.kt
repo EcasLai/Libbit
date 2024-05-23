@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.libbit.adapter.BookAdapter
+import com.example.libbit.adapter.BookSavedAdapter
 import com.example.libbit.databinding.FragmentSearchBinding
 import com.example.libbit.model.Book
 import com.example.libbit.util.FirestoreUtil
@@ -21,7 +22,7 @@ import java.util.Locale
 
 class SearchFragment: Fragment() {
         private lateinit var binding: FragmentSearchBinding
-        private lateinit var bookAdapter: BookAdapter
+        private lateinit var bookAdapter: BookSavedAdapter
         private lateinit var firestore: FirebaseFirestore
 
     override fun onCreateView(
@@ -54,7 +55,7 @@ class SearchFragment: Fragment() {
         }
 
         //Define clickListener
-        val itemClickListener = object : BookAdapter.OnItemClickListener {
+        val itemClickListener = object : BookSavedAdapter.OnItemClickListener {
             override fun onItemClick(book: Book) {
                 // Handle item click event here, e.g., navigate to BookDetailFragment
                 val bundle = Bundle().apply {
@@ -66,7 +67,7 @@ class SearchFragment: Fragment() {
         }
 
         //RecyclerView and adapter
-        bookAdapter = BookAdapter(ArrayList(), itemClickListener)
+        bookAdapter = BookSavedAdapter(ArrayList(), itemClickListener)
 
         binding.rvBookSearch.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)

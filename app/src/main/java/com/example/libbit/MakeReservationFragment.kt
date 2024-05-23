@@ -18,6 +18,7 @@ import com.example.libbit.databinding.FragmentMakeReservationBinding
 import com.example.libbit.model.Book
 import com.example.libbit.model.ReservationStatus
 import com.example.libbit.util.AuthenticationManager
+import com.example.libbit.util.TimeUtil
 import com.example.libbit.util.UserManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -92,16 +93,18 @@ class MakeReservationFragment : Fragment(){
         if (currentUser != null && book != null) {
             val userId = currentUser.uid // Get the current user's UID from Firebase Authentication
 
-            val expirationTimestamp = Calendar.getInstance().apply {
-                add(Calendar.DAY_OF_MONTH, 7)
-            }.timeInMillis
+            val reservationString = binding.editTextReserveDate.text.toString()
+            val reservationTimestamp = TimeUtil.convertDateToTimestamp(reservationString)
+
+            val expiryString = binding.editTextDeadlineDate.text.toString()
+            val expiryTimestamp = TimeUtil.convertDateToTimestamp(expiryString)
 
             val reservationData = hashMapOf(
                 "userId" to userId,
                 "bookId" to book.id,
                 "type" to book.type,
-                "timestamp" to binding.editTextReserveDate.text.toString(),
-                "expirationTimestamp" to binding.editTextDeadlineDate.text.toString(),
+                "timestamp" to reservationTimestamp,
+                "expirationTimestamp" to expiryTimestamp,
                 "location" to binding.venueSpinner.selectedItem.toString(),
                 "status" to ReservationStatus.RESERVED
             )

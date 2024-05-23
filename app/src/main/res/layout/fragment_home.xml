@@ -1,196 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#16FBFBFB"
     android:fillViewport="true"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="0dp"
-    tools:context=".HomeFragment">
-
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
+    tools:context=".HomeFragment"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="0dp">
 
-    <TextView
-        android:id="@+id/tvDate"
-        android:layout_width="wrap_content"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/screen_horizontal_margin"
-        android:layout_marginTop="@dimen/screen_vertical_margin"
-        android:fontFamily="@font/roboto_bold"
-        android:text="@string/home_date_day"
-        android:textSize="32sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@color/white"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
-    <TextView
-        android:id="@+id/tvDay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="@dimen/screen_vertical_margin"
-        android:fontFamily="@font/roboto_bold"
-        android:text="TextView"
-        android:textColor="@color/grey"
-        app:layout_constraintStart_toEndOf="@+id/tvDate"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvMonthYear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_bold"
-        android:text="TextView"
-        android:textColor="@color/grey"
-        app:layout_constraintStart_toStartOf="@+id/tvDay"
-        app:layout_constraintTop_toBottomOf="@+id/tvDay" />
-
-    <ImageView
-        android:id="@+id/imgQrScanner"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="@dimen/screen_vertical_margin"
-        android:layout_marginEnd="@dimen/screen_horizontal_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/qr_scanner_icon"/>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvHomePage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="@dimen/element_margin"
-        android:layout_marginEnd="@dimen/screen_horizontal_margin"
-        app:cardElevation="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDate">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginStart="@dimen/screen_horizontal_margin"
+            android:layout_marginTop="@dimen/screen_vertical_margin"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/home_date_day"
+            android:textSize="32sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="@dimen/screen_vertical_margin"
+            android:fontFamily="@font/roboto_bold"
+            android:text="TextView"
+            android:textColor="@color/grey"
+            app:layout_constraintStart_toEndOf="@+id/tvDate"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvMonthYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:text="TextView"
+            android:textColor="@color/grey"
+            app:layout_constraintStart_toStartOf="@+id/tvDay"
+            app:layout_constraintTop_toBottomOf="@+id/tvDay" />
+
+        <ImageView
+            android:id="@+id/imgQrScanner"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/screen_vertical_margin"
+            android:layout_marginEnd="@dimen/screen_horizontal_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/qr_scanner_icon" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvHomePage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="@dimen/element_margin"
+            android:layout_marginEnd="@dimen/screen_horizontal_margin"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDate">
 
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:text="Discover your best book now"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="320dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:text="Find your dream book according your preferences and join Libbit in journey of learning" />
-
-            <EditText
-                android:id="@+id/searchEditText"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@null"
-                android:drawableStart="@drawable/baseline_search_24"
-                android:drawablePadding="8dp"
-                android:hint="Search" />
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-    </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/tvDiscoverHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/screen_horizontal_margin"
-        android:layout_marginTop="@dimen/element_margin_far"
-        android:fontFamily="@font/roboto_bold"
-        android:text="Discover"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvHomePage" />
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="Discover your best book now"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tvDiscoverViewAll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/element_margin_far"
-        android:layout_marginEnd="@dimen/screen_horizontal_margin"
-        android:fontFamily="@font/roboto_bold"
-        android:text="@string/view_all_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvHomePage" />
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="320dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="Find your dream book according your preferences and join Libbit in journey of learning" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvBookHot"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/element_margin"
-        android:clipToPadding="false"
-        android:paddingHorizontal="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDiscoverHeader"
-        tools:listitem="@layout/rv_item_hotpick" />
+                <EditText
+                    android:id="@+id/searchEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="#F5F5F5"
+                    android:drawableStart="@drawable/baseline_search_24"
+                    android:drawablePadding="8dp"
+                    android:elevation="2dp"
+                    android:inputType="none"
+                    android:focusable="true"
+                    android:focusableInTouchMode="false"
+                    android:cursorVisible="false"
+                    android:hint="Search" />
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvPopularHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/screen_horizontal_margin"
-        android:layout_marginTop="@dimen/element_margin_far"
-        android:fontFamily="@font/roboto_bold"
-        android:text="Popular"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvBookHot" />
+        </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/tvPopularViewAll"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/element_margin_far"
-        android:layout_marginEnd="@dimen/screen_horizontal_margin"
-        android:text="@string/view_all_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvBookHot" />
+        <TextView
+            android:id="@+id/tvDiscoverHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/screen_horizontal_margin"
+            android:layout_marginTop="@dimen/element_margin_far"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Discover"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cvHomePage" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvBookPopular"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/screen_horizontal_margin"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="@dimen/screen_horizontal_margin"
-        android:forceHasOverlappingRendering="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvPopularHeader"
-        tools:listitem="@layout/rv_item_recentbook" />
+        <TextView
+            android:id="@+id/tvDiscoverViewAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/element_margin_far"
+            android:layout_marginEnd="@dimen/screen_horizontal_margin"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/view_all_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cvHomePage" />
 
-    <ProgressBar
-        android:id="@+id/progressBarDiscover"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/rvBookHot"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rvBookHot" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBookHot"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/element_margin"
+            android:clipToPadding="false"
+            android:paddingHorizontal="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDiscoverHeader"
+            tools:listitem="@layout/rv_item_hotpick" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tvPopularHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/screen_horizontal_margin"
+            android:layout_marginTop="@dimen/element_margin_far"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Popular"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvBookHot" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBookPopular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/screen_horizontal_margin"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="@dimen/screen_horizontal_margin"
+            android:forceHasOverlappingRendering="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvPopularHeader"
+            tools:listitem="@layout/rv_item_recentbook" />
+
+        <ProgressBar
+            android:id="@+id/progressBarDiscover"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/rvBookHot"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rvBookHot" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

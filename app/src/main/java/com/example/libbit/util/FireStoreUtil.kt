@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.libbit.model.Book
+import com.example.libbit.model.BookGenre
 import com.example.libbit.model.BookStatus
 import com.example.libbit.model.Fine
 import com.example.libbit.model.FineStatus
@@ -53,6 +54,8 @@ object FirestoreUtil {
                     val description = document.getString("description")?: ""
                     val author = document.getString("author")?: ""
                     val price = document.getString("price")?: ""
+                    val bookUrl = document.getString("bookUrl")?: ""
+                    val genreString = document.getString("genre")?: ""
                     val typeString = document.getString("type") ?: ""
                     val statusString = document.getString("status") ?: ""
 
@@ -73,7 +76,17 @@ object FirestoreUtil {
                         else -> null
                     }
 
-                    val book = Book(id = document.id, isbn, title, bookImage,description, author,price,type,status)
+                    // Convert statusString to HoldType enum
+                    val genre = when (genreString) {
+                        "FANTASY" -> BookGenre.FANTASY
+                        "ROMANCE" -> BookGenre.ROMANCE
+                        "MYSTERY" -> BookGenre.MYSTERY
+                        "SCIENCE_FICTION" -> BookGenre.SCIENCE_FICTION
+                        "HORROR" -> BookGenre.HORROR
+                        else -> null
+                    }
+
+                    val book = Book(id = document.id, isbn, title, bookImage,description, author,price, bookUrl, genre, type, status)
 
 
                     bookList.add(book)
@@ -106,6 +119,8 @@ object FirestoreUtil {
                     val description = document.getString("description")?: ""
                     val author = document.getString("author")?: ""
                     val price = document.getString("price")?: ""
+                    val bookUrl = document.getString("bookUrl")?: ""
+                    val genreString = document.getString("genre")?: ""
                     val typeString = document.getString("type") ?: ""
                     val statusString = document.getString("status") ?: ""
 
@@ -126,7 +141,18 @@ object FirestoreUtil {
                         else -> null
                     }
 
-                    val book = Book(id = document.id, isbn, title, bookImage,description, author,price,type,status)
+                    // Convert statusString to HoldType enum
+                    val genre = when (statusString) {
+                        "FANTASY" -> BookGenre.FANTASY
+                        "ROMANCE" -> BookGenre.ROMANCE
+                        "MYSTERY" -> BookGenre.MYSTERY
+                        "SCIENCE_FICTION" -> BookGenre.SCIENCE_FICTION
+                        "HORROR" -> BookGenre.HORROR
+                        else -> null
+                    }
+
+
+                    val book = Book(id = document.id, isbn, title, bookImage,description, author,price, bookUrl, genre, type, status)
 
                     bookList.add(book)
                 }
@@ -142,22 +168,34 @@ object FirestoreUtil {
 
     fun getReservations(
         collectionName: String,
+        userId: String?,
         onSuccess: (List<Pair<Reservation, Book>>) -> Unit,
-        onFailure: (Exception) -> Unit
+        onFailure: (Exception) -> Unit,
+        onEmpty: () -> Unit
     ) {
         db.collection(collectionName)
+            .whereEqualTo("userId", userId)
             .get()
             .addOnSuccessListener { result ->
                 val reservationsWithBooks = mutableListOf<Pair<Reservation, Book>>()
+
+                if (result.isEmpty) { // Check if there are no reservations
+                    onEmpty() // Invoke the callback for handling empty reservations
+                    return@addOnSuccessListener
+                }
 
                 for (document in result.documents) {
                     val userId = document.getString("userId") ?: ""
                     val bookId = document.getString("bookId") ?: ""
                     val typeString = document.getString("type") ?: ""
-                    val timestamp = document.getString("timestamp") ?: ""
-                    val expirationTimestamp = document.getString("expirationTimestamp") ?: ""
+                    val timestampString = document.getString("timestamp") ?: ""
+                    val expirationTimestampString = document.getString("expirationTimestamp") ?: ""
                     val location =  document.getString("location") ?: ""
                     val statusString = document.getString("status") ?: ""
+
+                    val timestamp = TimeUtil.convertTimestampToDate(timestampString)
+
+                    val expirationTimestamp = TimeUtil.convertTimestampToDate(expirationTimestampString)
 
                     // Convert typeString to ReservationType enum
                     val type = when (typeString) {
@@ -197,6 +235,37 @@ object FirestoreUtil {
                                 val description = bookDocument.getString("description") ?: ""
                                 val author = bookDocument.getString("author") ?: ""
                                 val price = bookDocument.getString("price") ?: ""
+                                val bookUrl = bookDocument.getString("bookUrl")?: ""
+                                val genreString = bookDocument.getString("genre")?: ""
+                                val typeString = bookDocument.getString("type") ?: ""
+                                val statusString = bookDocument.getString("status") ?: ""
+
+                                // Convert typeString to HoldType enum
+                                val type = when (typeString) {
+                                    "PHYSICAL_BOOK" -> HoldType.PHYSICAL_BOOK
+                                    "EBOOK" -> HoldType.EBOOK
+                                    else -> null
+                                }
+
+                                // Convert statusString to HoldType enum
+                                val status = when (statusString) {
+                                    "AVAILABLE" -> BookStatus.AVAILABLE
+                                    "ON_HOLD" -> BookStatus.ON_HOLD
+                                    "PURCHASED" -> BookStatus.PURCHASED
+                                    "DAMAGED" -> BookStatus.DAMAGED
+                                    "LOST" -> BookStatus.LOST
+                                    else -> null
+                                }
+
+                                // Convert statusString to HoldType enum
+                                val genre = when (genreString) {
+                                    "FANTASY" -> BookGenre.FANTASY
+                                    "ROMANCE" -> BookGenre.ROMANCE
+                                    "MYSTERY" -> BookGenre.MYSTERY
+                                    "SCIENCE_FICTION" -> BookGenre.SCIENCE_FICTION
+                                    "HORROR" -> BookGenre.HORROR
+                                    else -> null
+                                }
 
                                 val book = Book(
                                     id = bookDocument.id,
@@ -206,10 +275,14 @@ object FirestoreUtil {
                                     description = description,
                                     author = author,
                                     price = price,
-                                    type = type
+                                    bookUrl = bookUrl,
+                                    genre = genre,
+                                    type = type,
+                                    status = status
                                 )
 
                                 reservationsWithBooks.add(Pair(reservation, book))
+
                                 if (reservationsWithBooks.size == result.documents.size) {
                                     onSuccess(reservationsWithBooks)
                                 }
@@ -231,14 +304,22 @@ object FirestoreUtil {
     fun getSaved(
         bookType: String,
         collectionName: String,
+        userId: String?,
         onSuccess: (List<Pair<Hold, Book>>) -> Unit,
-        onFailure: (Exception) -> Unit
+        onFailure: (Exception) -> Unit,
+        onEmpty: () -> Unit
     ) {
         db.collection(collectionName)
             .whereEqualTo("type", bookType)
+            .whereEqualTo("userId", userId)
             .get()
             .addOnSuccessListener { result ->
                 val savedWithBooks = mutableListOf<Pair<Hold, Book>>()
+
+                if (result.isEmpty) { // Check if there are no reservations
+                    onEmpty() // Invoke the callback for handling empty reservations
+                    return@addOnSuccessListener
+                }
 
                 for (document in result.documents) {
                     val userId = document.getString("userId") ?: ""
@@ -288,6 +369,37 @@ object FirestoreUtil {
                                 val description = bookDocument.getString("description") ?: ""
                                 val author = bookDocument.getString("author") ?: ""
                                 val price = bookDocument.getString("price") ?: ""
+                                val bookUrl = bookDocument.getString("bookUrl")?: ""
+                                val genreString = bookDocument.getString("genre")?: ""
+                                val typeString = bookDocument.getString("type") ?: ""
+                                val statusString = bookDocument.getString("status") ?: ""
+
+                                // Convert typeString to HoldType enum
+                                val type = when (typeString) {
+                                    "PHYSICAL_BOOK" -> HoldType.PHYSICAL_BOOK
+                                    "EBOOK" -> HoldType.EBOOK
+                                    else -> null
+                                }
+
+                                // Convert statusString to HoldType enum
+                                val status = when (statusString) {
+                                    "AVAILABLE" -> BookStatus.AVAILABLE
+                                    "ON_HOLD" -> BookStatus.ON_HOLD
+                                    "PURCHASED" -> BookStatus.PURCHASED
+                                    "DAMAGED" -> BookStatus.DAMAGED
+                                    "LOST" -> BookStatus.LOST
+                                    else -> null
+                                }
+
+                                // Convert statusString to HoldType enum
+                                val genre = when (genreString) {
+                                    "FANTASY" -> BookGenre.FANTASY
+                                    "ROMANCE" -> BookGenre.ROMANCE
+                                    "MYSTERY" -> BookGenre.MYSTERY
+                                    "SCIENCE_FICTION" -> BookGenre.SCIENCE_FICTION
+                                    "HORROR" -> BookGenre.HORROR
+                                    else -> null
+                                }
 
                                 val book = Book(
                                     id = bookDocument.id,
@@ -297,7 +409,10 @@ object FirestoreUtil {
                                     description = description,
                                     author = author,
                                     price = price,
-                                    type = type
+                                    bookUrl = bookUrl,
+                                    genre = genre,
+                                    type = type,
+                                    status = status
                                 )
 
                                 savedWithBooks.add(Pair(hold, book))
@@ -343,29 +458,23 @@ object FirestoreUtil {
             }
     }
 
-    fun parseExpiryDate(expiryDateString: String): Date {
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        return dateFormat.parse(expiryDateString) ?: Date()
+    fun parseExpiryDate(expiryTimestamp: String): Date {
+        val timestamp = expiryTimestamp.toLongOrNull() ?: return Date()
+        return Date(timestamp)
     }
 
-    // Function to check if a hold is overdue
     private fun isHoldOverdue(hold: Hold): Boolean {
-        // Parse expiry date string to Date object
-        val expiryDate = hold.dueTimestamp?.let { parseExpiryDate(it) }
+        val expiryDate = parseExpiryDate(hold.dueTimestamp ?: "")
         val currentDate = Date()
-        return currentDate > expiryDate
+        return currentDate.after(expiryDate)
     }
 
-
-    // Function to calculate fine amount for an overdue hold
     private fun calculateFineAmount(hold: Hold): Double {
-        // Parse expiry date string to Date object
-        val expiryDate = hold.dueTimestamp?.let { parseExpiryDate(it) }
+        val expiryDate = parseExpiryDate(hold.dueTimestamp ?: "")
         val currentDate = Date()
 
-        // Calculate fine amount based on days overdue
         val millisecondsPerDay = 24 * 60 * 60 * 1000
-        val daysLate = ((currentDate.time - expiryDate!!.time) / millisecondsPerDay).toInt()
+        val daysLate = ((currentDate.time - expiryDate.time) / millisecondsPerDay).toInt()
         val finePerDay = 1 // Example: $1 per day late
         return (daysLate * finePerDay).toDouble()
     }
@@ -392,11 +501,22 @@ object FirestoreUtil {
             }
     }
 
-    fun getFine(collectionName: String, onSuccess: (List<Fine>) -> Unit, onFailure: (Exception) -> Unit) {
+    fun getFine(collectionName: String,
+                userId: String?,
+                onSuccess: (List<Fine>) -> Unit,
+                onFailure: (Exception) -> Unit,
+                onEmpty: () -> Unit
+    ) {
         db.collection(collectionName)
+            .whereEqualTo("userId", userId)
             .get()
             .addOnSuccessListener { result: QuerySnapshot ->
                 val fineList = mutableListOf<Fine>()
+
+                if (result.isEmpty) { // Check if there are no reservations
+                    onEmpty() // Invoke the callback for handling empty reservations
+                    return@addOnSuccessListener
+                }
 
                 for (document in result.documents) {
                     val userId = document.getString("userId") ?: ""
@@ -425,6 +545,34 @@ object FirestoreUtil {
             .addOnFailureListener { exception ->
                 onFailure(exception)
                 Log.w(ContentValues.TAG, "Error getting documents.", exception)
+            }
+    }
+
+    fun removeFine(
+        userId: String?,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit,
+    ){
+        db.collection("fines")
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                // Iterate through fines associated with the user
+                for (document in querySnapshot.documents) {
+                    // Delete each fine document
+                    db.collection("fines")
+                        .document(document.id)
+                        .delete()
+                        .addOnSuccessListener {
+                            onSuccess() // Invoke success callback when fine is removed successfully
+                        }
+                        .addOnFailureListener { exception ->
+                            onFailure(exception) // Invoke failure callback if deleting fine fails
+                        }
+                }
+            }
+            .addOnFailureListener { exception ->
+                onFailure(exception) // Invoke failure callback if fetching fines fails
             }
     }
 }

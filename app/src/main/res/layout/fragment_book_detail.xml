@@ -32,7 +32,7 @@
                 app:srcCompat="?attr/actionModeCloseDrawable" />
 
             <ImageView
-                android:id="@+id/ivClickBookDetailMore"
+                android:id="@+id/imgBookDetailBookmark"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginTop="@dimen/element_margin_far"
@@ -42,12 +42,12 @@
                 app:srcCompat="@drawable/baseline_bookmark_border_24" />
 
             <ImageView
-                android:id="@+id/ivClickBookDetailMore2"
+                android:id="@+id/imgBookDetailShare"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginTop="@dimen/element_margin_far"
                 android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/ivClickBookDetailMore"
+                app:layout_constraintEnd_toStartOf="@+id/imgBookDetailBookmark"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/baseline_share_24" />
 
@@ -58,7 +58,7 @@
                 android:text="Book Details"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@+id/btnBookDetailBack"
-                app:layout_constraintEnd_toStartOf="@+id/ivClickBookDetailMore"
+                app:layout_constraintEnd_toStartOf="@+id/imgBookDetailBookmark"
                 app:layout_constraintStart_toEndOf="@+id/btnBookDetailBack"
                 app:layout_constraintTop_toTopOf="@+id/btnBookDetailBack" />
 
@@ -195,12 +195,13 @@
                                 android:textColor="@color/grey" />
 
                             <TextView
-                                android:id="@+id/textView8"
+                                android:id="@+id/tvBookPrice"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="$ -"
                                 android:textColor="@color/libbit_main_color"
-                                android:textSize="18sp" />
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                     </androidx.cardview.widget.CardView>

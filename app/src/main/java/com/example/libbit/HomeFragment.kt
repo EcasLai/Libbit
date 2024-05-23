@@ -175,6 +175,11 @@ class HomeFragment : Fragment() {
             navController.navigate(R.id.action_homeFragment_to_searchFragment)
         }
 
+        binding.tvDiscoverViewAll.setOnClickListener{
+            val navController = findNavController()
+            navController.navigate(R.id.action_homeFragment_to_searchFragment)
+        }
+
         binding.searchEditText.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 val navController = findNavController()
@@ -226,7 +231,6 @@ class HomeFragment : Fragment() {
             Toast.makeText(requireContext(), "Invalid QR code content", Toast.LENGTH_SHORT).show()
         }
     }
-
 
     //Extract QR Content
     private fun parseQRContent(contents: String): Pair<String?, String?> {

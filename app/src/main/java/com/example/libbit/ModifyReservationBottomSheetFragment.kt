@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.example.libbit.databinding.BottomsheetModifyReservationBinding
 import com.example.libbit.model.Reservation
+import com.example.libbit.util.TimeUtil
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
@@ -51,24 +53,28 @@ class ModifyReservationBottomSheetFragment: BottomSheetDialogFragment() {
                 showDatePickerDialog()
             }
 
-
             binding.btnModifyReservation.setOnClickListener {
                 modifyReservation(reservation)
             }
+
         }
 
     }
 
     private fun modifyReservation(reservation: Reservation){
+        val newReserveDate = TimeUtil.convertDateToTimestamp(binding.editTextReserveDate.text.toString())
+        val newDeadline = TimeUtil.convertDateToTimestamp(binding.editTextDeadlineDate.text.toString())
         db.collection("reservations").document(reservation.id.toString())
             .update(
                 mapOf(
-                    "timestamp" to binding.editTextReserveDate.text.toString(),
-                    "expirationTimestamp" to binding.editTextDeadlineDate.text.toString()
+                    "timestamp" to newReserveDate,
+                    "expirationTimestamp" to newDeadline
                 )
             )
             .addOnSuccessListener {
                 Toast.makeText(requireContext(), "Modify Successful", Toast.LENGTH_SHORT).show()
+                dismiss()
+                findNavController().navigate(R.id.action_reservationDetailFragment_to_bookFragment)
             }
             .addOnFailureListener {
 

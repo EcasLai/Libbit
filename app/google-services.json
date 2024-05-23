@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "40621797475",
+    "project_id": "libbit-library-app",
+    "storage_bucket": "libbit-library-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40621797475:android:22954d6e5f27c12038c856",
+        "android_client_info": {
+          "package_name": "com.example.libbit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOwudSmFbdYlqOSsqqJeYkkNJeSgnhrCY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
